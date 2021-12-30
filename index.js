@@ -22,7 +22,7 @@ const homepageHtml = pug.renderFile(
 );
 
 const notfoundPageHtml = pug.renderFile(
-  path.resolve(__dirname, "templates", "homepage.pug")
+  path.resolve(__dirname, "templates", "404.pug")
 );
 
 const filemap = {
