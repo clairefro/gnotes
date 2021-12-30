@@ -17,15 +17,12 @@ console.log(marked.parse(test.content));
 const homepageHtml = pug.renderFile(
   path.resolve(__dirname, "templates", "homepage.pug"),
   {
-    content: test.content,
+    content: marked.parse(test.content),
   }
 );
 
 const notfoundPageHtml = pug.renderFile(
-  path.resolve(__dirname, "templates", "homepage.pug"),
-  {
-    content: test.content,
-  }
+  path.resolve(__dirname, "templates", "homepage.pug")
 );
 
 const filemap = {
