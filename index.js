@@ -5,6 +5,7 @@ const marked = require("marked");
 const pug = require("pug");
 
 const gnotesDir = path.resolve(__dirname, "gnotes");
+const distDir = path.resolve(__dirname, "docs");
 
 const testRaw = fs.readFileSync(path.resolve(gnotesDir, "notes1.md"), "utf-8");
 const test = matter(testRaw);
@@ -13,14 +14,29 @@ console.log({ gnotesDir });
 console.log();
 console.log(marked.parse(test.content));
 
-const homepageHTML = pug.renderFile(
+const homepageHtml = pug.renderFile(
   path.resolve(__dirname, "templates", "homepage.pug"),
   {
     content: test.content,
   }
 );
 
-fs.writeFileSync(path.resolve(__dirname, "docs", "index.html"), homepageHTML);
+const notfoundPageHtml = pug.renderFile(
+  path.resolve(__dirname, "templates", "homepage.pug"),
+  {
+    content: test.content,
+  }
+);
+
+const filemap = {
+  "index.html": homepageHtml,
+  "404.html": notfoundPageHtml,
+};
+
+Object.entries(filemap).forEach(([filename, html]) => {
+  fs.writeFileSync(path.resolve(distDir, filename), html);
+});
+
 // get all md files in 'gnotes'
 // get 'top.md' (currently read, etc)
 
