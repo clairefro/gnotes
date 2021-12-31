@@ -57,3 +57,5 @@ Object.entries(filemap).forEach(([filename, html]) => {
 
 /** Build API */
 mkdirIfNotExistsSync(apiDir);
+
+fs.writeFileSync(path.resolve(apiDir, "notes.json"), JSON.stringify(notes));
