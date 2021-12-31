@@ -6,7 +6,6 @@ type: poem
 link: http://philoctetes.free.fr/parmenidesunicode.htm
 tags:
   - philosophy
-  - truth
   - presocratic
 lastNoted: "2021-12-28"
 ---
