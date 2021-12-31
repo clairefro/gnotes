@@ -1,0 +1,36 @@
+doctype html
+html(lang='en')
+  head
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js" integrity="sha512-hzyXu3u+VDu/7vpPjRKFp9w33Idx7pWWNazPm+aCMRu26yZXFCby1gn1JxevVv3LDwnSbyKrvLo3JNdi4Qx1ww==" crossorigin="anonymous" referrerpolicy="no-referrer")
+    title Note
+  body
+    h1 Note
+    p Here is the templated content
+    div.note#output 
+      p loading...
+    
+    script(type='text/javascript').
+      const run = async () => {
+
+        const output = document.getElementById("output")
+  
+        try {
+
+        const res = await fetch('https://raw.githubusercontent.com/clairefro/gnotes/main/gnotes/notes1.md')
+        if (!res.ok) {
+          console.log(res)
+          throw new Error(`Failed to fetch note with status code ${res.status}`)
+        }
+        const md = await res.text()
+        const mdBody = md.replace(/^---[.\r\n]*---/,"")
+        console.log({mdBody})
+        output.innerText = ""
+        output.insertAdjacentHTML('beforeend', marked.parse(mdBody))
+        } catch (e) {
+          console.error(e)
+          output.innerText = "Something went wrong when fetching note :("
+        } 
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        run()
+      })
