@@ -8,4 +8,7 @@ html(lang='en')
     div 
       ul 
         each note in notes
-          li= JSON.stringify(note)
+          li 
+            p 
+              a(href=`${note.fm.link}` target="_blank" rel="noreferrer nofollower noopener") 
+                | #{note.fm.author} - "#{note.fm.title}" (#{note.fm.yearPublished})
