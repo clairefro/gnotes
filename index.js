@@ -1,15 +1,14 @@
 const fs = require("fs");
 const path = require("path");
 const matter = require("gray-matter");
-const md = require("marked");
-const pug = require("pug");
-const { getMarkdownFilesSync } = require("./util/files");
-const { getPrettyUrl } = require("./util/github");
-
-pug.filters.markdown = (text) => md.parse(text);
+const pug = require("./lib/pug");
+const { getMarkdownFilesSync, clearDirSync } = require("./lib/files");
+const { getPrettyUrl, getRawUrl } = require("./lib/github");
 
 const notesDir = path.resolve(__dirname, "notes");
 const distDir = path.resolve(__dirname, "docs");
+
+clearDirSync(distDir);
 
 const getNotes = (dir) => {
   const mdFilepaths = getMarkdownFilesSync(dir);
@@ -17,40 +16,39 @@ const getNotes = (dir) => {
   const notes = mdFilepaths.map((filepath) => {
     const raw = fs.readFileSync(filepath, "utf-8");
     const parsed = matter(raw);
-    const { data: meta, content } = parsed;
-    console.log(meta);
+    // 'data' is frontmatter. Only need frontmatter for homepage
+    const { data: fm /* content */ } = parsed;
 
     const relPath = filepath.replace(new RegExp(`^${__dirname}/`), "");
-    const something = getPrettyUrl(relPath);
-    console.log({ something });
+    const prettyUrl = getPrettyUrl(relPath);
+    const rawUrl = getRawUrl(relPath);
 
-    return { ...parsed, relPath };
+    return { fm, prettyUrl, rawUrl, relPath };
   });
   return notes;
 };
 
 const notes = getNotes(notesDir);
-// console.log({ notes });
+console.log({ notes });
+// TODO: build API
 
-// const homepageHtml = pug.renderFile(
-//   path.resolve(__dirname, "templates", "homepage.pug"),
-//   {
-//     content: md.parse(test.content),
-//   }
-// );
+const homepageHtml = pug.renderFile(
+  path.resolve(__dirname, "templates", "home.pug"),
+  { notes }
+);
 
-// const notfoundPageHtml = pug.renderFile(
-//   path.resolve(__dirname, "templates", "404.pug")
-// );
+const notfoundPageHtml = pug.renderFile(
+  path.resolve(__dirname, "templates", "404.pug")
+);
 
-// const filemap = {
-//   "index.html": homepageHtml,
-//   "404.html": notfoundPageHtml,
-// };
+const filemap = {
+  "index.html": homepageHtml,
+  "404.html": notfoundPageHtml,
+};
 
-// Object.entries(filemap).forEach(([filename, html]) => {
-//   fs.writeFileSync(path.resolve(distDir, filename), html);
-// });
+Object.entries(filemap).forEach(([filename, html]) => {
+  fs.writeFileSync(path.resolve(distDir, filename), html);
+});
 
 // get all md files in 'gnotes'
 // get 'top.md' (currently read, etc)

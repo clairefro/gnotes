@@ -3,7 +3,9 @@ html(lang='en')
   head
     title Home
   body
-    h1 NOW FROM /docs
+    h1 Home
     p Here is the templated content
     div 
-      != content
+      ul 
+        each note in notes
+          li= JSON.stringify(note)
