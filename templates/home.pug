@@ -8,7 +8,7 @@ html(lang='en')
     link(href="modules/external/vis-js-timeline-graph2d.css" rel="stylesheet" type="text/css")
     // tagify 
     script(src="modules/external/tagify.min.js")
-    script(src="modules/external/tagifypolyfills.js")
+    script(src="modules/external/tagify-polyfills.js")
     link(href="modules/external/tagify.min.css" rel="stylesheet" type="text/css")
     // custom scripts
     script(src="modules/internal/script.js")
@@ -63,7 +63,7 @@ html(lang='en')
 
       const tagInput = document.getElementById("tag-input"),
       tagsTag = new Tagify(tagInput, {
-        id: 'tags',  // must be unique (per-tagify instance)
+        id: `tags-${new Date().toISOString()}`,  // must be unique (per-tagify instance)
         duplicates: false,
         enforceWhitelist: true,
         whitelist: Object.keys(inf.summary.tags.map),
@@ -71,7 +71,6 @@ html(lang='en')
           highlightFirst: true 
         },
       });
-      //- tagsTag.addTags(Object.keys(inf.summary.tags.map))
 
       tagsTag.on('change', (e) => {
         console.log({e})

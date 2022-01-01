@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><title>Home</title><!-- vis.js--><script src="modules/external/vis-js.min.js"></script><link href="modules/external/vis-js-timeline-graph2d.css" rel="stylesheet" type="text/css"><!-- tagify --><script src="modules/external/tagify.min.js"></script><script src="modules/external/tagifypolyfills.js"></script><link href="modules/external/tagify.min.css" rel="stylesheet" type="text/css"><!-- custom scripts--><script src="modules/internal/script.js"></script><!-- custom styles--><link rel="stylesheet" href="styles/style.css"><link rel="stylesheet" href="styles/timeline.css"></head><body><h1>Home</h1><div> <p>Tags</p><ul><li>fiction</li><li>philosophy</li><li>infinity</li><li>religion</li><li>martyrdom</li><li>christianity</li><li>japan</li><li>missionary</li><li>presocratic</li></ul></div><div> <p>Types</p><ul><li>book</li><li>poem</li></ul></div><div><li> <a href="https://ddooss.org/libros/Jorge_Luis_Borges_ficciones.pdf" target="_blank" rel="noreferrer nofollower noopener"> Borges, Jorge Luis - "Ficciones" (1944)</a></li><li> <a href="https://celmoreblog.files.wordpress.com/2016/05/235449575-silence-shusaku-endo-william-johnston.pdf" target="_blank" rel="noreferrer nofollower noopener"> Endo, Shusaku - "Silence" (1966)</a></li><li> <a href="https://www.amazon.com/Myth-Religion-Transcripts-Alan-Watts/dp/080483055X" target="_blank" rel="noreferrer nofollower noopener"> Watts, Alan - "Myth and Religion" (1996)</a></li><li> <a href="http://philoctetes.free.fr/parmenidesunicode.htm" target="_blank" rel="noreferrer nofollower noopener"> Parmenides - "On Nature" (-480)</a></li><li> <a href="https://somepdf.pdf" target="_blank" rel="noreferrer nofollower noopener"> Borges, Jorge Luis - "Ficciones" (1944)</a></li></div><label for="tag-input">Tags</label><input name="tag-input" id="tag-input"><div id="timeline-yp"></div><script type="text/javascript">const filters = {
+<!DOCTYPE html><html lang="en"><head><title>Home</title><!-- vis.js--><script src="modules/external/vis-js.min.js"></script><link href="modules/external/vis-js-timeline-graph2d.css" rel="stylesheet" type="text/css"><!-- tagify --><script src="modules/external/tagify.min.js"></script><script src="modules/external/tagify-polyfills.js"></script><link href="modules/external/tagify.min.css" rel="stylesheet" type="text/css"><!-- custom scripts--><script src="modules/internal/script.js"></script><!-- custom styles--><link rel="stylesheet" href="styles/style.css"><link rel="stylesheet" href="styles/timeline.css"></head><body><h1>Home</h1><div> <p>Tags</p><ul><li>fiction</li><li>philosophy</li><li>infinity</li><li>religion</li><li>martyrdom</li><li>christianity</li><li>japan</li><li>missionary</li><li>presocratic</li></ul></div><div> <p>Types</p><ul><li>book</li><li>poem</li></ul></div><div><li> <a href="https://ddooss.org/libros/Jorge_Luis_Borges_ficciones.pdf" target="_blank" rel="noreferrer nofollower noopener"> Borges, Jorge Luis - "Ficciones" (1944)</a></li><li> <a href="https://celmoreblog.files.wordpress.com/2016/05/235449575-silence-shusaku-endo-william-johnston.pdf" target="_blank" rel="noreferrer nofollower noopener"> Endo, Shusaku - "Silence" (1966)</a></li><li> <a href="https://www.amazon.com/Myth-Religion-Transcripts-Alan-Watts/dp/080483055X" target="_blank" rel="noreferrer nofollower noopener"> Watts, Alan - "Myth and Religion" (1996)</a></li><li> <a href="http://philoctetes.free.fr/parmenidesunicode.htm" target="_blank" rel="noreferrer nofollower noopener"> Parmenides - "On Nature" (-480)</a></li><li> <a href="https://somepdf.pdf" target="_blank" rel="noreferrer nofollower noopener"> Borges, Jorge Luis - "Ficciones" (1944)</a></li></div><label for="tag-input">Tags</label><input name="tag-input" id="tag-input"><div id="timeline-yp"></div><script type="text/javascript">const filters = {
   types: 'all',
   tags: 'all',
   authors: 'all'
@@ -25,7 +25,7 @@ console.log({borges})
 
 const tagInput = document.getElementById("tag-input"),
 tagsTag = new Tagify(tagInput, {
-  id: 'tags',  // must be unique (per-tagify instance)
+  id: `tags-${new Date().toISOString()}`,  // must be unique (per-tagify instance)
   duplicates: false,
   enforceWhitelist: true,
   whitelist: Object.keys(inf.summary.tags.map),
@@ -33,7 +33,6 @@ tagsTag = new Tagify(tagInput, {
     highlightFirst: true 
   },
 });
-//- tagsTag.addTags(Object.keys(inf.summary.tags.map))
 
 tagsTag.on('change', (e) => {
   console.log({e})
