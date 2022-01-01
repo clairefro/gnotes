@@ -9,7 +9,7 @@ const {
   mkdirIfNotExistsSync,
 } = require("../lib/files");
 const { getPrettyUrl, getRawUrl, getRepo } = require("../lib/github");
-const { getNotesInfo } = require("../lib/api");
+const { getNotesInfo } = require("../lib/notes");
 const config = require("../gnotes-config");
 
 const appDir = path.resolve(__dirname, "..");
@@ -43,7 +43,7 @@ const getNotes = (dir) => {
 const notes = getNotes(notesDir);
 const info = getNotesInfo(notes);
 
-console.log(`Found ${info.summary.notes.count} notes.`);
+console.log(`Found ${info.summary.notes.count} notes in '${config.notesDir}'`);
 
 /** Build Website const appDir = dirname(require.main.filename);
 console.log({ appDir });*/
