@@ -1,0 +1,6 @@
+/* Custom style overrides for vis.js timeline */
+/* More info: https://visjs.github.io/vis-timeline/docs/timeline/#Styles */
+.vis-item {
+  border-color: orange;
+  background-color: yellow;
+}
