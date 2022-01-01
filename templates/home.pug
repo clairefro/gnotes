@@ -19,33 +19,31 @@ html(lang='en')
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
   body
     h1 My notes 
+    h2 Stats 
+    h2 Explore
+    details 
+      summary Filters 
+      div 
+        label(for="types-input") Type
+        button#reset-types-button (show all)
+        button#clear-types-button (clear all)
+        input(name="types-input")#types-input
 
-    label(for="types-input") Type
-    button#reset-types-button (show all)
-    button#clear-types-button (clear all)
-    input(name="types-input")#types-input
-
-    label(for="tag-input") Tags
-    button#reset-tags-button (show all)
-    button#clear-tags-button (clear all)
-    input(name="tag-input")#tag-input
-
+        label(for="tag-input") Tags
+        button#reset-tags-button (show all)
+        button#clear-tags-button (clear all)
+        input(name="tag-input")#tag-input
+  
+    p Scroll to zoom, drag to pan
+    
+    h3 By year published
     div#timeline-yp
+    h3 By last noted
+    div#timeline-ln
     
     div
       each note in notes
         +notesLink(note)
-
-    div 
-      p Tags
-      ul
-        each tag in Object.keys(info.summary.tags.map)
-          li= tag
-    div 
-      p Types
-      ul
-        each type in Object.keys(info.summary.types.map)
-          li= type
 
     script(type="text/javascript"). 
       //////////////////////////
@@ -64,15 +62,50 @@ html(lang='en')
       //////////////////////////
       // TIMELINE (vis.js)
 
-      // Set up timeline (year published)
+      // Set up timelines
       const containerYp = document.getElementById('timeline-yp')
-      const items = notesToTimelineDataset(globalFilteredNotes)
+      const containerLn = document.getElementById('timeline-ln')
+
+      const ypDatasetInit = toTimeLineDataset(notesToYpItems(globalFilteredNotes))
+      const lnDatasetInit = toTimeLineDataset(notesToLnItems(globalFilteredNotes))
 
       const options = {
-        showCurrentTime: false
+        showCurrentTime: false,
       };
 
-      const timelineYp = new vis.Timeline(containerYp, items, options);
+      const timelineYp = new vis.Timeline(containerYp, ypDatasetInit, options);
+      const timelineLn = new vis.Timeline(containerLn, lnDatasetInit, options);
+
+      function updateTimelines() {
+        const ypDataset = toTimeLineDataset(notesToYpItems(globalFilteredNotes))
+        const lnDataset = toTimeLineDataset(notesToLnItems(globalFilteredNotes))
+
+        timelineYp.setItems(ypDataset)
+        timelineYp.redraw()
+
+        timelineLn.setItems(lnDataset)
+        timelineLn.redraw()
+      }
+
+      function notesToYpItems(_notes) {
+        return _notes.map(n => ({ 
+          id: n.id, 
+          content: n.fm.title, 
+          start: new Date(n.fm.yearPublished, 0, 1)
+        }))
+      }
+
+      function notesToLnItems(_notes) {
+        return _notes.map(n => ({ 
+          id: n.id, 
+          content: n.fm.title, 
+          start: new Date(n.fm.lastNoted)
+        }))
+      }
+
+      function toTimeLineDataset (_items) {
+        return new vis.DataSet(_items)
+      }
       
       ///////////////////////
       // TAGIFY 
@@ -132,7 +165,7 @@ html(lang='en')
 
       tagsTagifyInput.on('change', (e) => {
         const filteredTags = tagsTagifyInput.value.map(v => v.value)
-        updateFilter({ tags: filteredTags })
+        updateGlobalFilter({ tags: filteredTags })
       })
 
       // Tagify: type input
@@ -154,29 +187,25 @@ html(lang='en')
 
       typeTagifyInput.on('change', (e) => {
         const filteredTypes = typeTagifyInput.value.map(v => v.value)
-        updateFilter({ types: filteredTypes })
+        updateGlobalFilter({ types: filteredTypes })
       })
 
       // Handle filter changes
 
-      function updateFilter(filterInputs) {
-        //- update globalFilters, global and rerender timelineYp
+      function updateGlobalFilter(filterInputs) {
+        //- update globalFilters, globalNotes and rerender timelineYp
         Object.entries(filterInputs).forEach(([filterName, filterVal]) => {
           globalFilters[filterName] = filterVal
         })
-        globalFilteredNotes = filterNotes(nts, inf, globalFilters)
-        const data = notesToTimelineDataset(globalFilteredNotes)
-        timelineYp.setItems(data)
-        timelineYp.redraw()
+        handleFilterChange()    
       }
 
-      function notesToTimelineDataset (_notes) {
-        return new vis.DataSet(_notes.map(n => ({ 
-          id: n.id, 
-          content: n.fm.title, 
-          start: new Date(n.fm.yearPublished, 0, 1)
-        })))
+      function handleFilterChange() {
+        globalFilteredNotes = filterNotes(nts, inf, globalFilters)
+        updateTimelines()
       }
+
+      
 
 
       

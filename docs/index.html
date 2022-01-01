@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><title>My notes</title><!-- vis.js--><script src="modules/external/vis-js.min.js"></script><link href="modules/external/vis-js-timeline-graph2d.css" rel="stylesheet" type="text/css"><!-- tagify --><script src="modules/external/tagify.min.js"></script><script src="modules/external/tagify-polyfills.js"></script><link href="modules/external/tagify.min.css" rel="stylesheet" type="text/css"><!-- custom scripts--><script src="modules/internal/script.js"></script><!-- custom styles--><link rel="stylesheet" href="styles/style.css"><link rel="stylesheet" href="styles/timeline.css"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body><h1>My notes </h1><label for="types-input">Type</label><button id="reset-types-button">(show all)</button><button id="clear-types-button">(clear all)</button><input name="types-input" id="types-input"><label for="tag-input">Tags</label><button id="reset-tags-button">(show all)</button><button id="clear-tags-button">(clear all)</button><input name="tag-input" id="tag-input"><div id="timeline-yp"></div><div><li> <a href="https://ddooss.org/libros/Jorge_Luis_Borges_ficciones.pdf" target="_blank" rel="noreferrer nofollower noopener"> Borges, Jorge Luis - "Ficciones" (1944)</a></li><li> <a href="https://celmoreblog.files.wordpress.com/2016/05/235449575-silence-shusaku-endo-william-johnston.pdf" target="_blank" rel="noreferrer nofollower noopener"> Endo, Shusaku - "Silence" (1966)</a></li><li> <a href="https://www.amazon.com/Myth-Religion-Transcripts-Alan-Watts/dp/080483055X" target="_blank" rel="noreferrer nofollower noopener"> Watts, Alan - "Myth and Religion" (1996)</a></li><li> <a href="http://philoctetes.free.fr/parmenidesunicode.htm" target="_blank" rel="noreferrer nofollower noopener"> Parmenides - "On Nature" (-480)</a></li></div><div> <p>Tags</p><ul><li>philosophy</li><li>fiction</li><li>religion</li><li>infinity</li><li>martyrdom</li><li>christianity</li><li>japan</li><li>missionary</li><li>presocratic</li></ul></div><div> <p>Types</p><ul><li>📕 book</li><li>📜 poem</li></ul></div><script type="text/javascript">//////////////////////////
+<!DOCTYPE html><html lang="en"><head><title>My notes</title><!-- vis.js--><script src="modules/external/vis-js.min.js"></script><link href="modules/external/vis-js-timeline-graph2d.css" rel="stylesheet" type="text/css"><!-- tagify --><script src="modules/external/tagify.min.js"></script><script src="modules/external/tagify-polyfills.js"></script><link href="modules/external/tagify.min.css" rel="stylesheet" type="text/css"><!-- custom scripts--><script src="modules/internal/script.js"></script><!-- custom styles--><link rel="stylesheet" href="styles/style.css"><link rel="stylesheet" href="styles/timeline.css"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body><h1>My notes </h1><h2>Stats </h2><h2>Explore</h2><details> <summary>Filters </summary><div> <label for="types-input">Type</label><button id="reset-types-button">(show all)</button><button id="clear-types-button">(clear all)</button><input name="types-input" id="types-input"><label for="tag-input">Tags</label><button id="reset-tags-button">(show all)</button><button id="clear-tags-button">(clear all)</button><input name="tag-input" id="tag-input"></div></details><p>Scroll to zoom, drag to pan</p><h3>By year published</h3><div id="timeline-yp"></div><h3>By last noted</h3><div id="timeline-ln"></div><div><li> <a href="https://ddooss.org/libros/Jorge_Luis_Borges_ficciones.pdf" target="_blank" rel="noreferrer nofollower noopener"> Borges, Jorge Luis - "Ficciones" (1944)</a></li><li> <a href="https://celmoreblog.files.wordpress.com/2016/05/235449575-silence-shusaku-endo-william-johnston.pdf" target="_blank" rel="noreferrer nofollower noopener"> Endo, Shusaku - "Silence" (1966)</a></li><li> <a href="https://www.amazon.com/Myth-Religion-Transcripts-Alan-Watts/dp/080483055X" target="_blank" rel="noreferrer nofollower noopener"> Watts, Alan - "Myth and Religion" (1996)</a></li><li> <a href="http://philoctetes.free.fr/parmenidesunicode.htm" target="_blank" rel="noreferrer nofollower noopener"> Parmenides - "On Nature" (-480)</a></li></div><script type="text/javascript">//////////////////////////
 // GLOBAL STATE 
 const globalFilters = {
   types: 'all',
@@ -7,22 +7,57 @@ const globalFilters = {
 }
 
 // get notes and info from variable passed into template
-const nts = [{"id":"clairefro/gnotes/notes/borges-ficciones.md","fm":{"title":"Ficciones","author":"Borges, Jorge Luis","yearPublished":1944,"type":"📕 book","link":"https://ddooss.org/libros/Jorge_Luis_Borges_ficciones.pdf","tags":["fiction","infinity"],"lastNoted":"2020-12-31"},"prettyUrl":"https://github.com/clairefro/gnotes/blob/main/notes/borges-ficciones.md","rawUrl":"https://raw.githubusercontent.com/clairefro/gnotes/main/notes/borges-ficciones.md","relPath":"notes/borges-ficciones.md"},{"id":"clairefro/gnotes/notes/endo-shusaku-silence.md","fm":{"title":"Silence","author":"Endo, Shusaku","yearPublished":1966,"type":"📕 book","link":"https://celmoreblog.files.wordpress.com/2016/05/235449575-silence-shusaku-endo-william-johnston.pdf","tags":["fiction","philosophy","religion","martyrdom","christianity","japan","missionary"],"lastNoted":"2021-12-16"},"prettyUrl":"https://github.com/clairefro/gnotes/blob/main/notes/endo-shusaku-silence.md","rawUrl":"https://raw.githubusercontent.com/clairefro/gnotes/main/notes/endo-shusaku-silence.md","relPath":"notes/endo-shusaku-silence.md"},{"id":"clairefro/gnotes/notes/foo/watts-alan-myth-and-religion.md","fm":{"title":"Myth and Religion","author":"Watts, Alan","yearPublished":1996,"type":"📕 book","link":"https://www.amazon.com/Myth-Religion-Transcripts-Alan-Watts/dp/080483055X","tags":["philosophy","religion"],"lastNoted":"2021-11-31"},"prettyUrl":"https://github.com/clairefro/gnotes/blob/main/notes/foo/watts-alan-myth-and-religion.md","rawUrl":"https://raw.githubusercontent.com/clairefro/gnotes/main/notes/foo/watts-alan-myth-and-religion.md","relPath":"notes/foo/watts-alan-myth-and-religion.md"},{"id":"clairefro/gnotes/notes/parmenides-on-nature.md","fm":{"title":"On Nature","author":"Parmenides","yearPublished":-480,"type":"📜 poem","link":"http://philoctetes.free.fr/parmenidesunicode.htm","tags":["philosophy","presocratic"],"lastNoted":"2021-12-28"},"prettyUrl":"https://github.com/clairefro/gnotes/blob/main/notes/parmenides-on-nature.md","rawUrl":"https://raw.githubusercontent.com/clairefro/gnotes/main/notes/parmenides-on-nature.md","relPath":"notes/parmenides-on-nature.md"}]
+const nts = [{"id":"clairefro/gnotes/notes/borges-ficciones.md","fm":{"title":"Ficciones","author":"Borges, Jorge Luis","yearPublished":1944,"type":"📕 book","link":"https://ddooss.org/libros/Jorge_Luis_Borges_ficciones.pdf","tags":["fiction","infinity"],"lastNoted":"2021-06-31"},"prettyUrl":"https://github.com/clairefro/gnotes/blob/main/notes/borges-ficciones.md","rawUrl":"https://raw.githubusercontent.com/clairefro/gnotes/main/notes/borges-ficciones.md","relPath":"notes/borges-ficciones.md"},{"id":"clairefro/gnotes/notes/endo-shusaku-silence.md","fm":{"title":"Silence","author":"Endo, Shusaku","yearPublished":1966,"type":"📕 book","link":"https://celmoreblog.files.wordpress.com/2016/05/235449575-silence-shusaku-endo-william-johnston.pdf","tags":["fiction","philosophy","religion","martyrdom","christianity","japan","missionary"],"lastNoted":"2021-12-16"},"prettyUrl":"https://github.com/clairefro/gnotes/blob/main/notes/endo-shusaku-silence.md","rawUrl":"https://raw.githubusercontent.com/clairefro/gnotes/main/notes/endo-shusaku-silence.md","relPath":"notes/endo-shusaku-silence.md"},{"id":"clairefro/gnotes/notes/foo/watts-alan-myth-and-religion.md","fm":{"title":"Myth and Religion","author":"Watts, Alan","yearPublished":1996,"type":"📕 book","link":"https://www.amazon.com/Myth-Religion-Transcripts-Alan-Watts/dp/080483055X","tags":["philosophy","religion"],"lastNoted":"2021-11-31"},"prettyUrl":"https://github.com/clairefro/gnotes/blob/main/notes/foo/watts-alan-myth-and-religion.md","rawUrl":"https://raw.githubusercontent.com/clairefro/gnotes/main/notes/foo/watts-alan-myth-and-religion.md","relPath":"notes/foo/watts-alan-myth-and-religion.md"},{"id":"clairefro/gnotes/notes/parmenides-on-nature.md","fm":{"title":"On Nature","author":"Parmenides","yearPublished":-480,"type":"📜 poem","link":"http://philoctetes.free.fr/parmenidesunicode.htm","tags":["philosophy","presocratic"],"lastNoted":"2021-12-28"},"prettyUrl":"https://github.com/clairefro/gnotes/blob/main/notes/parmenides-on-nature.md","rawUrl":"https://raw.githubusercontent.com/clairefro/gnotes/main/notes/parmenides-on-nature.md","relPath":"notes/parmenides-on-nature.md"}]
 const inf = {"repoUrl":"https://github.com/clairefro/gnotes","summary":{"notes":{"count":4},"authors":{"count":4,"map":{"Borges, Jorge Luis":1,"Endo, Shusaku":1,"Watts, Alan":1,"Parmenides":1}},"types":{"count":2,"map":{"📕 book":3,"📜 poem":1}},"tags":{"count":9,"map":{"philosophy":3,"fiction":2,"religion":2,"infinity":1,"martyrdom":1,"christianity":1,"japan":1,"missionary":1,"presocratic":1}},"yearPublished":{"min":-480,"max":1996,"diff":2476}}}
 
 let globalFilteredNotes = [...nts]
 //////////////////////////
 // TIMELINE (vis.js)
 
-// Set up timeline (year published)
+// Set up timelines
 const containerYp = document.getElementById('timeline-yp')
-const items = notesToTimelineDataset(globalFilteredNotes)
+const containerLn = document.getElementById('timeline-ln')
+
+const ypDatasetInit = toTimeLineDataset(notesToYpItems(globalFilteredNotes))
+const lnDatasetInit = toTimeLineDataset(notesToLnItems(globalFilteredNotes))
 
 const options = {
-  showCurrentTime: false
+  showCurrentTime: false,
 };
 
-const timelineYp = new vis.Timeline(containerYp, items, options);
+const timelineYp = new vis.Timeline(containerYp, ypDatasetInit, options);
+const timelineLn = new vis.Timeline(containerLn, lnDatasetInit, options);
+
+function updateTimelines() {
+  const ypDataset = toTimeLineDataset(notesToYpItems(globalFilteredNotes))
+  const lnDataset = toTimeLineDataset(notesToLnItems(globalFilteredNotes))
+
+  timelineYp.setItems(ypDataset)
+  timelineYp.redraw()
+
+  timelineLn.setItems(lnDataset)
+  timelineLn.redraw()
+}
+
+function notesToYpItems(_notes) {
+  return _notes.map(n => ({ 
+    id: n.id, 
+    content: n.fm.title, 
+    start: new Date(n.fm.yearPublished, 0, 1)
+  }))
+}
+
+function notesToLnItems(_notes) {
+  return _notes.map(n => ({ 
+    id: n.id, 
+    content: n.fm.title, 
+    start: new Date(n.fm.lastNoted)
+  }))
+}
+
+function toTimeLineDataset (_items) {
+  return new vis.DataSet(_items)
+}
 
 ///////////////////////
 // TAGIFY 
@@ -82,7 +117,7 @@ resetTagifyInput(tagsTagifyInput, allTags)
 
 tagsTagifyInput.on('change', (e) => {
   const filteredTags = tagsTagifyInput.value.map(v => v.value)
-  updateFilter({ tags: filteredTags })
+  updateGlobalFilter({ tags: filteredTags })
 })
 
 // Tagify: type input
@@ -104,26 +139,20 @@ resetTagifyInput(typeTagifyInput, allTypes)
 
 typeTagifyInput.on('change', (e) => {
   const filteredTypes = typeTagifyInput.value.map(v => v.value)
-  updateFilter({ types: filteredTypes })
+  updateGlobalFilter({ types: filteredTypes })
 })
 
 // Handle filter changes
 
-function updateFilter(filterInputs) {
-  //- update globalFilters, global and rerender timelineYp
+function updateGlobalFilter(filterInputs) {
+  //- update globalFilters, globalNotes and rerender timelineYp
   Object.entries(filterInputs).forEach(([filterName, filterVal]) => {
     globalFilters[filterName] = filterVal
   })
-  globalFilteredNotes = filterNotes(nts, inf, globalFilters)
-  const data = notesToTimelineDataset(globalFilteredNotes)
-  timelineYp.setItems(data)
-  timelineYp.redraw()
+  handleFilterChange()    
 }
 
-function notesToTimelineDataset (_notes) {
-  return new vis.DataSet(_notes.map(n => ({ 
-    id: n.id, 
-    content: n.fm.title, 
-    start: new Date(n.fm.yearPublished, 0, 1)
-  })))
+function handleFilterChange() {
+  globalFilteredNotes = filterNotes(nts, inf, globalFilters)
+  updateTimelines()
 }</script></body></html>
