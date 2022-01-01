@@ -5,6 +5,7 @@ const pug = require("./lib/pug");
 const {
   getMarkdownFilesSync,
   clearDirSync,
+  copySync,
   mkdirIfNotExistsSync,
 } = require("./lib/files");
 const { getPrettyUrl, getRawUrl, getRepo } = require("./lib/github");
@@ -12,6 +13,7 @@ const { getNotesInfo } = require("./lib/api");
 
 const notesDir = path.resolve(__dirname, "notes");
 const distDir = path.resolve(__dirname, "docs");
+const staticDir = path.resolve(__dirname, "static");
 const apiDir = path.join(distDir, "api");
 
 const REPO = getRepo();
@@ -57,6 +59,10 @@ const filemap = {
 Object.entries(filemap).forEach(([filename, html]) => {
   fs.writeFileSync(path.resolve(distDir, filename), html);
 });
+
+/** Copy over static  */
+
+copySync(staticDir, distDir);
 
 /** Build API */
 mkdirIfNotExistsSync(apiDir);

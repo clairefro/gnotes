@@ -2,6 +2,10 @@ doctype html
 html(lang='en')
   head
     title Home
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js" integrity="sha512-XHDcSyqhOoO2ocB7sKOCJEkUjw/pQCJViP1ynpy+EGh/LggzrP6U/V3a++LQTnZT7sCQKeHRyWHfhN2afjXjCg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-timeline-graph2d.min.css" integrity="sha512-bbXw0l+sIgE839ldwV4+tEPR4lIelw+Ryj35jm5c6KTgXNJybZJ4DrV+a40zK9kx8pvqNbneG0TGdJBP2jUa4Q==" crossorigin="anonymous" referrerpolicy="no-referrer")
+    link(rel="stylesheet" href="style.css")
+    link(rel="stylesheet" href="custom-vis.css")
   body
     h1 Home
     p Here is the templated content
@@ -12,3 +16,25 @@ html(lang='en')
             p 
               a(href=`${note.fm.link}` target="_blank" rel="noreferrer nofollower noopener") 
                 | #{note.fm.author} - "#{note.fm.title}" (#{note.fm.yearPublished})
+    div#timeline
+
+    script(type="text/javascript"). 
+      const container = document.getElementById('timeline')
+      //- const notes = #{notes}
+      //- console.log({notes})
+      const items = new vis.DataSet([
+        {id: 1, content: 'item 1', start: new Date(-200, 0, 1) },
+        {id: 2, content: 'item 2', start: new Date(1950, 0, 1) },
+        {id: 3, content: 'item 3', start: new Date(1970, 0, 1) },
+        {id: 4, content: 'item 4', start: new Date(1988, 0, 1) },
+        {id: 5, content: 'item 5', start: new Date(1989, 0, 1) },
+        {id: 6, content: 'item 6', start: new Date(2005, 0, 1)}
+      ]);
+
+      const options = {
+        showCurrentTime: false
+      };
+
+      const timeline = new vis.Timeline(container, items, options);
+
+      

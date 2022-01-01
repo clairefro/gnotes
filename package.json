@@ -9,6 +9,7 @@
   "author": "Claire Froelich",
   "license": "ISC",
   "dependencies": {
+    "fs-extra": "^10.0.0",
     "git-repo-name": "^1.0.1",
     "gray-matter": "4.0.3",
     "marked": "4.0.8",
