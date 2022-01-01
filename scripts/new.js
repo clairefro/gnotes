@@ -12,16 +12,20 @@ const newNoteTemplate = path.resolve(
   "templates",
   "newNote.md"
 );
-const outputDir = path.resolve(__dirname, "..", filename);
+
+const appDir = path.resolve(__dirname, "..");
+const notesDir = path.resolve(appDir, config.notesDir);
+const outputDir = path.resolve(notesDir, filename);
 
 try {
   copySync(newNoteTemplate, outputDir, {
     overwrite: false,
     errorOnExist: true,
   });
+  __dirname, "..";
 
   console.log(
-    `New note template generated at ${outputDir}.\n\nMove this note anywhere inside "${config.notesDir}/" to make it publishable.\n`
+    `New note template generated at ${outputDir}.\n\You can move this note anywhere inside "${config.notesDir}/".\n`
   );
 } catch (e) {
   console.log(`Error: ${e.message}. Aborting.`);
