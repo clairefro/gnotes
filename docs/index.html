@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><title>Home</title><!-- vis.js--><script src="modules/external/vis-js.min.js"></script><link href="modules/external/vis-js-timeline-graph2d.css" rel="stylesheet" type="text/css"><!-- tagify --><script src="modules/external/tagify.min.js"></script><script src="modules/external/tagify-polyfills.js"></script><link href="modules/external/tagify.min.css" rel="stylesheet" type="text/css"><!-- custom scripts--><script src="modules/internal/script.js"></script><!-- custom styles--><link rel="stylesheet" href="styles/style.css"><link rel="stylesheet" href="styles/timeline.css"></head><body><h1>Home</h1><div> <p>Tags</p><ul><li>philosophy</li><li>fiction</li><li>religion</li><li>infinity</li><li>martyrdom</li><li>christianity</li><li>japan</li><li>missionary</li><li>presocratic</li></ul></div><div> <p>Types</p><ul><li>📕 book</li><li>📜 poem</li></ul></div><div><li> <a href="https://ddooss.org/libros/Jorge_Luis_Borges_ficciones.pdf" target="_blank" rel="noreferrer nofollower noopener"> Borges, Jorge Luis - "Ficciones" (1944)</a></li><li> <a href="https://celmoreblog.files.wordpress.com/2016/05/235449575-silence-shusaku-endo-william-johnston.pdf" target="_blank" rel="noreferrer nofollower noopener"> Endo, Shusaku - "Silence" (1966)</a></li><li> <a href="https://www.amazon.com/Myth-Religion-Transcripts-Alan-Watts/dp/080483055X" target="_blank" rel="noreferrer nofollower noopener"> Watts, Alan - "Myth and Religion" (1996)</a></li><li> <a href="http://philoctetes.free.fr/parmenidesunicode.htm" target="_blank" rel="noreferrer nofollower noopener"> Parmenides - "On Nature" (-480)</a></li></div><label for="tag-input">Tags</label><button id="reset-tags-button">(show all)</button><button id="clear-tags-button">(clear all)</button><input name="tag-input" id="tag-input"><div id="timeline-yp"></div><script type="text/javascript">//////////////////////////
+<!DOCTYPE html><html lang="en"><head><title>My notes</title><!-- vis.js--><script src="modules/external/vis-js.min.js"></script><link href="modules/external/vis-js-timeline-graph2d.css" rel="stylesheet" type="text/css"><!-- tagify --><script src="modules/external/tagify.min.js"></script><script src="modules/external/tagify-polyfills.js"></script><link href="modules/external/tagify.min.css" rel="stylesheet" type="text/css"><!-- custom scripts--><script src="modules/internal/script.js"></script><!-- custom styles--><link rel="stylesheet" href="styles/style.css"><link rel="stylesheet" href="styles/timeline.css"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body><h1>My notes </h1><label for="types-input">Type</label><button id="reset-types-button">(show all)</button><button id="clear-types-button">(clear all)</button><input name="types-input" id="types-input"><label for="tag-input">Tags</label><button id="reset-tags-button">(show all)</button><button id="clear-tags-button">(clear all)</button><input name="tag-input" id="tag-input"><div id="timeline-yp"></div><div><li> <a href="https://ddooss.org/libros/Jorge_Luis_Borges_ficciones.pdf" target="_blank" rel="noreferrer nofollower noopener"> Borges, Jorge Luis - "Ficciones" (1944)</a></li><li> <a href="https://celmoreblog.files.wordpress.com/2016/05/235449575-silence-shusaku-endo-william-johnston.pdf" target="_blank" rel="noreferrer nofollower noopener"> Endo, Shusaku - "Silence" (1966)</a></li><li> <a href="https://www.amazon.com/Myth-Religion-Transcripts-Alan-Watts/dp/080483055X" target="_blank" rel="noreferrer nofollower noopener"> Watts, Alan - "Myth and Religion" (1996)</a></li><li> <a href="http://philoctetes.free.fr/parmenidesunicode.htm" target="_blank" rel="noreferrer nofollower noopener"> Parmenides - "On Nature" (-480)</a></li></div><div> <p>Tags</p><ul><li>philosophy</li><li>fiction</li><li>religion</li><li>infinity</li><li>martyrdom</li><li>christianity</li><li>japan</li><li>missionary</li><li>presocratic</li></ul></div><div> <p>Types</p><ul><li>📕 book</li><li>📜 poem</li></ul></div><script type="text/javascript">//////////////////////////
 // GLOBAL STATE 
 const globalFilters = {
   types: 'all',
@@ -12,6 +12,7 @@ const inf = {"repoUrl":"https://github.com/clairefro/gnotes","summary":{"notes":
 
 let globalFilteredNotes = [...nts]
 //////////////////////////
+// TIMELINE (vis.js)
 
 // Set up timeline (year published)
 const containerYp = document.getElementById('timeline-yp')
@@ -23,22 +24,36 @@ const options = {
 
 const timelineYp = new vis.Timeline(containerYp, items, options);
 
-const allTags = Object.keys(inf.summary.tags.map)
-const tagInput = document.getElementById("tag-input"),
-tagsTagifyInput = new Tagify(tagInput, {
-  id: 'tags',  // must be unique (per-tagify instance)
+///////////////////////
+// TAGIFY 
+const sharedTagifyOpts = {
   duplicates: false,
   enforceWhitelist: true,
-  whitelist: allTags,
   skipInvalid: true,
   editTags: false,
   dropdown: { 
     enabled: 1,
     highlightFirst: true 
   },
+}
+const allTags = Object.keys(inf.summary.tags.map)
+const allTypes = Object.keys(inf.summary.types.map)
+
+const tagInput = document.getElementById("tag-input"),
+tagsTagifyInput = new Tagify(tagInput, {
+  id: 'tags',  // must be unique (per-tagify instance)
+  whitelist: allTags,
+  ...sharedTagifyOpts
 });
 
-// Reset tags on page load
+const typeInput = document.getElementById("types-input"),
+typeTagifyInput = new Tagify(typeInput, {
+  id: 'types',  // must be unique (per-tagify instance)
+  whitelist: allTypes,
+  ...sharedTagifyOpts
+});
+
+// Tagify helpers
 function resetTagifyInput(tagifyInput, initialTags) {
   tagifyInput.removeAllTags()
   tagifyInput.addTags(initialTags)
@@ -48,6 +63,7 @@ function clearTagifyInput(tagifyInput) {
   tagifyInput.removeAllTags()
 }
 
+// Tagify: tags input
 const resetTagsButton = document.getElementById("reset-tags-button")
 resetTagsButton.addEventListener('click', onClickResetTags)
 
@@ -68,6 +84,30 @@ tagsTagifyInput.on('change', (e) => {
   const filteredTags = tagsTagifyInput.value.map(v => v.value)
   updateFilter({ tags: filteredTags })
 })
+
+// Tagify: type input
+const resetTypesButton = document.getElementById("reset-types-button")
+resetTypesButton.addEventListener('click', onClickResetTypes)
+
+const clearTypesButton = document.getElementById("clear-types-button")
+clearTypesButton.addEventListener('click', onClickClearTypes)
+
+function onClickResetTypes() {
+  resetTagifyInput(typeTagifyInput, allTypes)
+}
+
+function onClickClearTypes() {
+  clearTagifyInput(typeTagifyInput)
+}
+
+resetTagifyInput(typeTagifyInput, allTypes)
+
+typeTagifyInput.on('change', (e) => {
+  const filteredTypes = typeTagifyInput.value.map(v => v.value)
+  updateFilter({ types: filteredTypes })
+})
+
+// Handle filter changes
 
 function updateFilter(filterInputs) {
   //- update globalFilters, global and rerender timelineYp

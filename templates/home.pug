@@ -2,7 +2,7 @@ include mixins/noteLink
 doctype html
 html(lang='en')
   head
-    title Home
+    title My notes
     // vis.js
     script(src="modules/external/vis-js.min.js")
     link(href="modules/external/vis-js-timeline-graph2d.css" rel="stylesheet" type="text/css")
@@ -15,8 +15,27 @@ html(lang='en')
     // custom styles
     link(rel="stylesheet" href="styles/style.css")
     link(rel="stylesheet" href="styles/timeline.css")
+
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
   body
-    h1 Home
+    h1 My notes 
+
+    label(for="types-input") Type
+    button#reset-types-button (show all)
+    button#clear-types-button (clear all)
+    input(name="types-input")#types-input
+
+    label(for="tag-input") Tags
+    button#reset-tags-button (show all)
+    button#clear-tags-button (clear all)
+    input(name="tag-input")#tag-input
+
+    div#timeline-yp
+    
+    div
+      each note in notes
+        +notesLink(note)
+
     div 
       p Tags
       ul
@@ -27,15 +46,6 @@ html(lang='en')
       ul
         each type in Object.keys(info.summary.types.map)
           li= type
-    div
-      each note in notes
-        +notesLink(note) 
-
-    label(for="tag-input") Tags
-    button#reset-tags-button (show all)
-    button#clear-tags-button (clear all)
-    input(name="tag-input")#tag-input
-    div#timeline-yp
 
     script(type="text/javascript"). 
       //////////////////////////
@@ -52,6 +62,7 @@ html(lang='en')
 
       let globalFilteredNotes = [...nts]
       //////////////////////////
+      // TIMELINE (vis.js)
 
       // Set up timeline (year published)
       const containerYp = document.getElementById('timeline-yp')
@@ -63,22 +74,36 @@ html(lang='en')
 
       const timelineYp = new vis.Timeline(containerYp, items, options);
       
-      const allTags = Object.keys(inf.summary.tags.map)
-      const tagInput = document.getElementById("tag-input"),
-      tagsTagifyInput = new Tagify(tagInput, {
-        id: 'tags',  // must be unique (per-tagify instance)
+      ///////////////////////
+      // TAGIFY 
+      const sharedTagifyOpts = {
         duplicates: false,
         enforceWhitelist: true,
-        whitelist: allTags,
         skipInvalid: true,
         editTags: false,
         dropdown: { 
           enabled: 1,
           highlightFirst: true 
         },
+      }
+      const allTags = Object.keys(inf.summary.tags.map)
+      const allTypes = Object.keys(inf.summary.types.map)
+
+      const tagInput = document.getElementById("tag-input"),
+      tagsTagifyInput = new Tagify(tagInput, {
+        id: 'tags',  // must be unique (per-tagify instance)
+        whitelist: allTags,
+        ...sharedTagifyOpts
       });
 
-      // Reset tags on page load
+      const typeInput = document.getElementById("types-input"),
+      typeTagifyInput = new Tagify(typeInput, {
+        id: 'types',  // must be unique (per-tagify instance)
+        whitelist: allTypes,
+        ...sharedTagifyOpts
+      });
+
+      // Tagify helpers
       function resetTagifyInput(tagifyInput, initialTags) {
         tagifyInput.removeAllTags()
         tagifyInput.addTags(initialTags)
@@ -88,6 +113,7 @@ html(lang='en')
         tagifyInput.removeAllTags()
       }
 
+      // Tagify: tags input
       const resetTagsButton = document.getElementById("reset-tags-button")
       resetTagsButton.addEventListener('click', onClickResetTags)
 
@@ -108,6 +134,30 @@ html(lang='en')
         const filteredTags = tagsTagifyInput.value.map(v => v.value)
         updateFilter({ tags: filteredTags })
       })
+
+      // Tagify: type input
+      const resetTypesButton = document.getElementById("reset-types-button")
+      resetTypesButton.addEventListener('click', onClickResetTypes)
+
+      const clearTypesButton = document.getElementById("clear-types-button")
+      clearTypesButton.addEventListener('click', onClickClearTypes)
+
+      function onClickResetTypes() {
+        resetTagifyInput(typeTagifyInput, allTypes)
+      }
+
+      function onClickClearTypes() {
+        clearTagifyInput(typeTagifyInput)
+      }
+
+      resetTagifyInput(typeTagifyInput, allTypes)
+
+      typeTagifyInput.on('change', (e) => {
+        const filteredTypes = typeTagifyInput.value.map(v => v.value)
+        updateFilter({ types: filteredTypes })
+      })
+
+      // Handle filter changes
 
       function updateFilter(filterInputs) {
         //- update globalFilters, global and rerender timelineYp
