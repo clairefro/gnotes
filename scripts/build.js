@@ -8,13 +8,14 @@ const {
 } = require("../lib/files");
 const { getNotes, getNotesInfo } = require("../lib/notes");
 const config = require("../gnotes-config");
+
+/** Point to project root */
+const appDir = path.resolve(__dirname, "..");
+
 const notesDir = path.resolve(appDir, config.notesDir || "notes");
 const distDir = path.resolve(appDir, config.destDir || "docs");
 const staticDir = path.resolve(appDir, "static");
 const apiDir = path.join(distDir, "api");
-
-/** Point to project root */
-const appDir = path.resolve(__dirname, "..");
 
 clearDirSync(distDir);
 

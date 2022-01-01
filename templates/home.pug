@@ -15,10 +15,10 @@ html(lang='en')
     div
       each note in notes
         +notesLink(note) 
-    div#timeline-yearPublished
+    div#timeline-yp
 
     script(type="text/javascript"). 
-      const container = document.getElementById('timeline')
+      const containerYp = document.getElementById('timeline-yp')
       const nts = !{JSON.stringify(notes)}
       console.log({nts})
 
@@ -30,6 +30,6 @@ html(lang='en')
         showCurrentTime: false
       };
 
-      const timeline = new vis.Timeline(container, items, options);
+      const timeline = new vis.Timeline(containerYp, items, options);
 
       
