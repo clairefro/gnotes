@@ -2,7 +2,7 @@
 title: Ficciones
 author: Borges, Jorge Luis
 yearPublished: 1944
-type: book
+type: 📕 book
 link: https://ddooss.org/libros/Jorge_Luis_Borges_ficciones.pdf
 tags:
   - fiction

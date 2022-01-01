@@ -32,52 +32,101 @@ html(lang='en')
         +notesLink(note) 
 
     label(for="tag-input") Tags
+    button#reset-tags-button (show all)
+    button#clear-tags-button (clear all)
     input(name="tag-input")#tag-input
     div#timeline-yp
 
     script(type="text/javascript"). 
-      const filters = {
+      //////////////////////////
+      // GLOBAL STATE 
+      const globalFilters = {
         types: 'all',
         tags: 'all',
         authors: 'all'
       }
 
-      const containerYp = document.getElementById('timeline-yp')
       // get notes and info from variable passed into template
       const nts = !{JSON.stringify(notes)}
       const inf = !{JSON.stringify(info)}
 
-      const data = nts.map(n => ({ id: n.id, content: n.fm.title, start: new Date(n.fm.yearPublished, 0, 1)}))
-      console.log({data})
-      const items = new vis.DataSet(data);
+      let globalFilteredNotes = [...nts]
+      //////////////////////////
+
+      // Set up timeline (year published)
+      const containerYp = document.getElementById('timeline-yp')
+      const items = notesToTimelineDataset(globalFilteredNotes)
 
       const options = {
         showCurrentTime: false
       };
 
-      const timeline = new vis.Timeline(containerYp, items, options);
-
-
-      const borges = filterNotes(nts, inf, { authors: ["Borges, Jorge Luis"], })
-      console.log({borges})
-
+      const timelineYp = new vis.Timeline(containerYp, items, options);
+      
+      const allTags = Object.keys(inf.summary.tags.map)
       const tagInput = document.getElementById("tag-input"),
-      tagsTag = new Tagify(tagInput, {
-        id: `tags-${new Date().toISOString()}`,  // must be unique (per-tagify instance)
+      tagsTagifyInput = new Tagify(tagInput, {
+        id: 'tags',  // must be unique (per-tagify instance)
         duplicates: false,
         enforceWhitelist: true,
-        whitelist: Object.keys(inf.summary.tags.map),
+        whitelist: allTags,
+        skipInvalid: true,
+        editTags: false,
         dropdown: { 
+          enabled: 1,
           highlightFirst: true 
         },
       });
 
-      tagsTag.on('change', (e) => {
-        console.log({e})
-        const selected = tagsTag.value
-        console.log(selected.map(v => v.value))
+      // Reset tags on page load
+      function resetTagifyInput(tagifyInput, initialTags) {
+        tagifyInput.removeAllTags()
+        tagifyInput.addTags(initialTags)
+      }
+
+      function clearTagifyInput(tagifyInput) {
+        tagifyInput.removeAllTags()
+      }
+
+      const resetTagsButton = document.getElementById("reset-tags-button")
+      resetTagsButton.addEventListener('click', onClickResetTags)
+
+      const clearTagsButton = document.getElementById("clear-tags-button")
+      clearTagsButton.addEventListener('click', onClickClearTags)
+
+      function onClickResetTags() {
+        resetTagifyInput(tagsTagifyInput, allTags)
+      }
+
+      function onClickClearTags() {
+        clearTagifyInput(tagsTagifyInput)
+      }
+
+      resetTagifyInput(tagsTagifyInput, allTags)
+
+      tagsTagifyInput.on('change', (e) => {
+        const filteredTags = tagsTagifyInput.value.map(v => v.value)
+        updateFilter({ tags: filteredTags })
       })
 
+      function updateFilter(filterInputs) {
+        //- update globalFilters, global and rerender timelineYp
+        Object.entries(filterInputs).forEach(([filterName, filterVal]) => {
+          globalFilters[filterName] = filterVal
+        })
+        globalFilteredNotes = filterNotes(nts, inf, globalFilters)
+        const data = notesToTimelineDataset(globalFilteredNotes)
+        timelineYp.setItems(data)
+        timelineYp.redraw()
+      }
+
+      function notesToTimelineDataset (_notes) {
+        return new vis.DataSet(_notes.map(n => ({ 
+          id: n.id, 
+          content: n.fm.title, 
+          start: new Date(n.fm.yearPublished, 0, 1)
+        })))
+      }
 
 
       

@@ -15,7 +15,7 @@ function filterNotes(_notes, _info, _inputFilters) {
 
     if (
       !Array.isArray(_filters.tags) ||
-      _filters.tags.some((t) => n.fm.tags.some(t))
+      _filters.tags.some((t) => n.fm.tags.indexOf(t) >= 0)
     ) {
       hasTag = true;
     }
@@ -33,8 +33,7 @@ function filterNotes(_notes, _info, _inputFilters) {
     ) {
       hasType = true;
     }
-
-    if (hasTag || hasAuthor || hasType) {
+    if (hasTag && hasAuthor && hasType) {
       matches.push(n);
     }
   });

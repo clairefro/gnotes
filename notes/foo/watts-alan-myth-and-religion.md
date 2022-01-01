@@ -2,7 +2,7 @@
 title: Myth and Religion
 author: Watts, Alan
 yearPublished: 1996
-type: book
+type: 📕 book
 link: https://www.amazon.com/Myth-Religion-Transcripts-Alan-Watts/dp/080483055X
 tags:
   - philosophy

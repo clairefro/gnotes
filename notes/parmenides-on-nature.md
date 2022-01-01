@@ -2,7 +2,7 @@
 title: On Nature
 author: Parmenides
 yearPublished: -480
-type: poem
+type: 📜 poem
 link: http://philoctetes.free.fr/parmenidesunicode.htm
 tags:
   - philosophy
