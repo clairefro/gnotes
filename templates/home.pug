@@ -20,16 +20,12 @@ html(lang='en')
 
     script(type="text/javascript"). 
       const container = document.getElementById('timeline')
-      //- const notes = #{notes}
-      //- console.log({notes})
-      const items = new vis.DataSet([
-        {id: 1, content: 'item 1', start: new Date(-200, 0, 1) },
-        {id: 2, content: 'item 2', start: new Date(1950, 0, 1) },
-        {id: 3, content: 'item 3', start: new Date(1970, 0, 1) },
-        {id: 4, content: 'item 4', start: new Date(1988, 0, 1) },
-        {id: 5, content: 'item 5', start: new Date(1989, 0, 1) },
-        {id: 6, content: 'item 6', start: new Date(2005, 0, 1)}
-      ]);
+      const nts = !{JSON.stringify(notes)}
+      console.log({nts})
+
+      const data = nts.map(n => ({ id: n.id, content: n.fm.title, start: new Date(n.fm.yearPublished, 0, 1)}))
+      console.log({data})
+      const items = new vis.DataSet(data);
 
       const options = {
         showCurrentTime: false
