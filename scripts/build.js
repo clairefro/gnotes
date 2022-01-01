@@ -1,46 +1,24 @@
 const fs = require("fs");
 const path = require("path");
-const matter = require("gray-matter");
 const pug = require("../lib/pug");
 const {
-  getMarkdownFilesSync,
   clearDirSync,
   copySync,
   mkdirIfNotExistsSync,
 } = require("../lib/files");
-const { getPrettyUrl, getRawUrl, getRepo } = require("../lib/github");
-const { getNotesInfo } = require("../lib/notes");
+const { getNotes, getNotesInfo } = require("../lib/notes");
 const config = require("../gnotes-config");
-
-const appDir = path.resolve(__dirname, "..");
 const notesDir = path.resolve(appDir, config.notesDir || "notes");
 const distDir = path.resolve(appDir, config.destDir || "docs");
 const staticDir = path.resolve(appDir, "static");
 const apiDir = path.join(distDir, "api");
 
-const REPO = getRepo();
+/** Point to project root */
+const appDir = path.resolve(__dirname, "..");
 
 clearDirSync(distDir);
 
-const getNotes = (dir) => {
-  const mdFilepaths = getMarkdownFilesSync(dir);
-
-  const notes = mdFilepaths.map((filepath) => {
-    const raw = fs.readFileSync(filepath, "utf-8");
-    const parsed = matter(raw);
-    // 'data' is frontmatter. Only need frontmatter for homepage
-    let { data: fm /*, content */ } = parsed;
-
-    const relPath = filepath.replace(new RegExp(`^${appDir}/`), "");
-    const prettyUrl = getPrettyUrl(relPath);
-    const rawUrl = getRawUrl(relPath);
-    const id = [REPO, relPath].join("/");
-    return { id, fm, prettyUrl, rawUrl, relPath };
-  });
-  return notes;
-};
-
-const notes = getNotes(notesDir);
+const notes = getNotes(appDir, notesDir);
 const info = getNotesInfo(notes);
 
 console.log(`Found ${info.summary.notes.count} notes in '${config.notesDir}'`);
