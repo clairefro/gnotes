@@ -1,3 +1,4 @@
+include mixins/noteLink
 doctype html
 html(lang='en')
   head
@@ -8,15 +9,13 @@ html(lang='en')
     link(rel="stylesheet" href="custom-vis.css")
   body
     h1 Home
-    p Here is the templated content
-    div 
-      ul 
-        each note in notes
-          li 
-            p 
-              a(href=`${note.fm.link}` target="_blank" rel="noreferrer nofollower noopener") 
-                | #{note.fm.author} - "#{note.fm.title}" (#{note.fm.yearPublished})
-    div#timeline
+    p
+      each tag in Object.keys(info.summary.tags.map)
+        li= tag
+    div
+      each note in notes
+        +notesLink(note) 
+    div#timeline-yearPublished
 
     script(type="text/javascript"). 
       const container = document.getElementById('timeline')

@@ -1,0 +1,4 @@
+mixin notesLink(note)
+  li 
+    a(href=`${note.fm.link}` target="_blank" rel="noreferrer nofollower noopener") 
+      | #{note.fm.author} - "#{note.fm.title}" (#{note.fm.yearPublished})
