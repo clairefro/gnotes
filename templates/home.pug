@@ -3,24 +3,49 @@ doctype html
 html(lang='en')
   head
     title Home
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js" integrity="sha512-XHDcSyqhOoO2ocB7sKOCJEkUjw/pQCJViP1ynpy+EGh/LggzrP6U/V3a++LQTnZT7sCQKeHRyWHfhN2afjXjCg==" crossorigin="anonymous" referrerpolicy="no-referrer")
-    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-timeline-graph2d.min.css" integrity="sha512-bbXw0l+sIgE839ldwV4+tEPR4lIelw+Ryj35jm5c6KTgXNJybZJ4DrV+a40zK9kx8pvqNbneG0TGdJBP2jUa4Q==" crossorigin="anonymous" referrerpolicy="no-referrer")
-    link(rel="stylesheet" href="style.css")
-    link(rel="stylesheet" href="timeline.css")
+    // vis.js
+    script(src="modules/external/vis-js.min.js")
+    link(href="modules/external/vis-js-timeline-graph2d.css" rel="stylesheet" type="text/css")
+    // tagify 
+    script(src="modules/external/tagify.min.js")
+    script(src="modules/external/tagifypolyfills.js")
+    link(href="modules/external/tagify.min.css" rel="stylesheet" type="text/css")
+    // custom scripts
+    script(src="modules/internal/script.js")
+    // custom styles
+    link(rel="stylesheet" href="styles/style.css")
+    link(rel="stylesheet" href="styles/timeline.css")
   body
     h1 Home
-    p
-      each tag in Object.keys(info.summary.tags.map)
-        li= tag
+    div 
+      p Tags
+      ul
+        each tag in Object.keys(info.summary.tags.map)
+          li= tag
+    div 
+      p Types
+      ul
+        each type in Object.keys(info.summary.types.map)
+          li= type
     div
       each note in notes
         +notesLink(note) 
+
+    label(for="tag-input") Tags
+    input(name="tag-input")#tag-input
     div#timeline-yp
 
     script(type="text/javascript"). 
+      const filters = {
+        types: 'all',
+        tags: 'all',
+        authors: 'all'
+      }
+
       const containerYp = document.getElementById('timeline-yp')
+      // get notes and info from variable passed into template
       const nts = !{JSON.stringify(notes)}
-      console.log({nts})
+      const inf = !{JSON.stringify(info)}
 
       const data = nts.map(n => ({ id: n.id, content: n.fm.title, start: new Date(n.fm.yearPublished, 0, 1)}))
       console.log({data})
@@ -31,5 +56,29 @@ html(lang='en')
       };
 
       const timeline = new vis.Timeline(containerYp, items, options);
+
+
+      const borges = filterNotes(nts, inf, { authors: ["Borges, Jorge Luis"], })
+      console.log({borges})
+
+      const tagInput = document.getElementById("tag-input"),
+      tagsTag = new Tagify(tagInput, {
+        id: 'tags',  // must be unique (per-tagify instance)
+        duplicates: false,
+        enforceWhitelist: true,
+        whitelist: Object.keys(inf.summary.tags.map),
+        dropdown: { 
+          highlightFirst: true 
+        },
+      });
+      //- tagsTag.addTags(Object.keys(inf.summary.tags.map))
+
+      tagsTag.on('change', (e) => {
+        console.log({e})
+        const selected = tagsTag.value
+        console.log(selected.map(v => v.value))
+      })
+
+
 
       
