@@ -19,27 +19,40 @@ html(lang='en')
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
   body
     h1 My notes 
-    h2 Stats 
+    
     h2 Explore
     details 
       summary Filters 
       div 
         label(for="types-input") Type
-        button#reset-types-button (show all)
-        button#clear-types-button (clear all)
+        div.filter-controls
+          button#reset-types-button (show all)
+          button#clear-types-button (clear all)
         input(name="types-input")#types-input
 
         label(for="tag-input") Tags
-        button#reset-tags-button (show all)
-        button#clear-tags-button (clear all)
+        div.filter-controls
+          button#reset-tags-button (show all)
+          button#clear-tags-button (clear all)
         input(name="tag-input")#tag-input
   
-    p Scroll to zoom, drag to pan
-    
-    h3 By year published
-    div#timeline-yp
-    h3 By last noted
-    div#timeline-ln
+    div#timelines-container
+    div
+      p Toggle View
+      button.toggle#timeline-toggle
+        div.toggle-switch
+
+      div#timeline-yp-container
+        h3 By year published
+        p 
+          em Scroll to zoom, drag to pan
+        div#timeline-yp
+
+      div#timeline-ln-container.hide 
+        h3 By last noted
+        p 
+          em Scroll to zoom, drag to pan
+        div#timeline-ln
     
     div
       each note in notes
@@ -54,17 +67,20 @@ html(lang='en')
         authors: 'all'
       }
 
+      let timelineViewIsLp = true
+
       // get notes and info from variable passed into template
       const nts = !{JSON.stringify(notes)}
       const inf = !{JSON.stringify(info)}
 
       let globalFilteredNotes = [...nts]
+
       //////////////////////////
       // TIMELINE (vis.js)
 
       // Set up timelines
-      const containerYp = document.getElementById('timeline-yp')
-      const containerLn = document.getElementById('timeline-ln')
+      const timelineYpEl = document.getElementById('timeline-yp')
+      const timelineLnEl = document.getElementById('timeline-ln')
 
       const ypDatasetInit = toTimeLineDataset(notesToYpItems(globalFilteredNotes))
       const lnDatasetInit = toTimeLineDataset(notesToLnItems(globalFilteredNotes))
@@ -73,8 +89,8 @@ html(lang='en')
         showCurrentTime: false,
       };
 
-      const timelineYp = new vis.Timeline(containerYp, ypDatasetInit, options);
-      const timelineLn = new vis.Timeline(containerLn, lnDatasetInit, options);
+      const timelineYp = new vis.Timeline(timelineYpEl, ypDatasetInit, options);
+      const timelineLn = new vis.Timeline(timelineLnEl, lnDatasetInit, options);
 
       function updateTimelines() {
         const ypDataset = toTimeLineDataset(notesToYpItems(globalFilteredNotes))
@@ -90,7 +106,7 @@ html(lang='en')
       function notesToYpItems(_notes) {
         return _notes.map(n => ({ 
           id: n.id, 
-          content: n.fm.title, 
+          content: buildTimelineContent(n), 
           start: new Date(n.fm.yearPublished, 0, 1)
         }))
       }
@@ -98,13 +114,42 @@ html(lang='en')
       function notesToLnItems(_notes) {
         return _notes.map(n => ({ 
           id: n.id, 
-          content: n.fm.title, 
+          content: buildTimelineContent(n), 
           start: new Date(n.fm.lastNoted)
         }))
       }
 
       function toTimeLineDataset (_items) {
         return new vis.DataSet(_items)
+      }
+
+      // TODO: Link to templated notes page in static website. Currently links to github
+      function buildTimelineContent(_note) {
+        return `
+          <div className="tl-content">
+            <a href="${_note.prettyUrl}" target="_blank" rel="noopener noreferrer nofollow">
+            <span>${_note.fm.title}</span>
+            </a>
+          </div>
+        `
+      }
+
+      // Toggle timeline views
+      const timelineToggle = document.getElementById("timeline-toggle")
+      timelineToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        timelineToggle.classList.toggle('active')
+        toggleTimelineView()
+      })
+
+      const timelineYpContainer = document.getElementById("timeline-yp-container")
+      const timelineLnContainer = document.getElementById("timeline-ln-container")
+
+      function toggleTimelineView() {
+        // in case we need if for something else...
+        timelineViewIsLp = !timelineViewIsLp
+        timelineYpContainer.classList.toggle("hide")
+        timelineLnContainer.classList.toggle("hide")
       }
       
       ///////////////////////
@@ -204,6 +249,8 @@ html(lang='en')
         globalFilteredNotes = filterNotes(nts, inf, globalFilters)
         updateTimelines()
       }
+
+      
 
       
 

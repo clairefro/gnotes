@@ -1,0 +1,54 @@
+html {
+  font-family: sans-serif;
+}
+
+.hide {
+  display: none;
+}
+
+/* TOGGLE BUTTON start */
+:root {
+  --toggle-height: 20px;
+  --toggle-width: 48px;
+}
+
+.toggle {
+  display: inline;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.toggle-switch {
+  background: #ccc;
+  border-radius: 15px;
+  width: var(--toggle-width);
+  height: var(--toggle-height);
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.toggle-switch::after {
+  content: " ";
+  display: block;
+  width: var(--toggle-height);
+  height: var(--toggle-height);
+  border-radius: 50%;
+  background-color: black;
+  transition: all 0.1s ease-in-out;
+}
+
+.active .toggle-switch::after {
+  margin-left: calc(var(--toggle-width) - var(--toggle-height));
+}
+
+.toggle-label {
+  display: inline-block;
+  line-height: 30px;
+}
+/* TOGGLE BUTTON end */
