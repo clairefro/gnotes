@@ -19,7 +19,12 @@ html(lang='en')
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
   body
     h1 My notes 
-    
+    div.section 
+      h2 Most recent 
+      each note in notes.sort((a,b)=> new Date(b.fm.lastNoted) - new Date(a.fm.lastNoted)).slice(0, 5)
+        +notesLink(note)
+
+
     h2 Explore
     details 
       summary Filters 
@@ -79,6 +84,7 @@ html(lang='en')
       const inf = !{JSON.stringify(info)}
 
       let globalFilteredNotes = [...nts]
+
 
       //////////////////////////
       // TIMELINE (vis.js)
