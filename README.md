@@ -1,9 +1,8 @@
 # gnotes
 
-Do you read and forget? gnotes helps you become an active reader.
+Do you read and forget? `gnotes` helps you become an active reader.
 
-- Take freeform notes on things you've read
-- Generate an explorable view of your notes in an interactive timeline with filters
+Take freeform notes on things you've read, and generate an explorable view of your notes in an interactive timeline with filters.
 
 Like learning out loud? Publish your notes to the public internet to share with the world.
 
@@ -15,21 +14,13 @@ Like learning out loud? Publish your notes to the public internet to share with 
 
 ### Adding notes
 
-To start a new note, create one from a template:
-
 `npm run new <you-note-name>`
 
-Fill out the meta data how you see fit, using any any conventions you like.
-
-You can move your note.md file anywhere inside `notes/`.
-
-Body content for the notes is completely free form and up to you!
+Fill out the meta data how you see fit, using any any conventions you like. You can move your note.md file anywhere inside `notes/`.
 
 ### Viewing your notes
 
 #### Locally
-
-Start a local server with
 
 `npm run view`
 
@@ -37,15 +28,11 @@ Click to the link to open your webpage in the browser.
 
 #### Deploy
 
-If you want to "learn out loud", you can publish you notes explorer to the public internet with services like GitHub pages.
-
-Simply build a bundle with
-
 `npm run build`
 
-Then serve the specified `distDir` (deafults to `docs/` for GitHub pages)
+Serve the specified `distDir`. Deafults to `docs/` for use with GitHub pages
 
-### JSON API
+## JSON API
 
 Builds of your notes also produce a JSON API (enabled by default).
 
@@ -59,7 +46,7 @@ curl <your site>/api/notes.json
 
 <details>
   <summary>Example response:</summary>
-  ```json
+  <code class="language-json">
 [
   {
     "id": "clairefro/gnotes/notes/parmenides-on-nature.md",
@@ -100,7 +87,7 @@ curl <your site>/api/notes.json
     "relPath": "notes/endo-shusaku-silence.md"
   }
 ]
-```
+</code>
 </details>
 
 #### /info.json
@@ -113,7 +100,7 @@ curl <your site>/api/info.json
 
 <details>
   <summary>Example response:</summary>
-  ```json
+    <code class="language-json">
 {
   "repoUrl": "https://github.com/clairefro/gnotes",
   "summary": {
@@ -151,7 +138,7 @@ curl <your site>/api/info.json
     "yearPublished": { "min": -480, "max": 1996, "diff": 2476 }
   }
 }
-```
+</code>
 </details>
 
 ### Config
