@@ -11,7 +11,7 @@ html(lang='en')
     script(src="modules/external/tagify-polyfills.js")
     link(href="modules/external/tagify.min.css" rel="stylesheet" type="text/css")
     // custom scripts
-    script(src="modules/internal/script.js")
+    script(src="modules/internal/filterNotes.js")
     // custom styles
     link(rel="stylesheet" href="styles/style.css")
     link(rel="stylesheet" href="styles/timeline.css")
@@ -33,11 +33,11 @@ html(lang='en')
           input(name="types-input")#types-input
         div.section
           div.flex
-            label.inline-item(for="tag-input") Tags
+            label.inline-item(for="tags-input") Tags
             div.filter-controls.inline-item
-              button#reset-tags-button (show all)
-              button#clear-tags-button (clear all)
-          input(name="tag-input")#tag-input
+              button#reset-tags-button (add all)
+              button#clear-tags-button (clear filter)
+          input(name="tags-input")#tags-input
   
     div#timelines-container
     div
@@ -173,8 +173,8 @@ html(lang='en')
       const allTags = Object.keys(inf.summary.tags.map)
       const allTypes = Object.keys(inf.summary.types.map)
 
-      const tagInput = document.getElementById("tag-input"),
-      tagsTagifyInput = new Tagify(tagInput, {
+      const tagsInput = document.getElementById("tags-input"),
+      tagsTagifyInput = new Tagify(tagsInput, {
         id: 'tags',  // must be unique (per-tagify instance)
         whitelist: allTags,
         ...sharedTagifyOpts
@@ -212,10 +212,11 @@ html(lang='en')
         clearTagifyInput(tagsTagifyInput)
       }
 
-      resetTagifyInput(tagsTagifyInput, allTags)
+      // init tags
+      resetTagifyInput(tagsTagifyInput, [])
 
       tagsTagifyInput.on('change', (e) => {
-        const filteredTags = tagsTagifyInput.value.map(v => v.value)
+        const filteredTags = getTagifyInputValues(tagsTagifyInput)
         updateGlobalFilter({ tags: filteredTags })
       })
 
@@ -233,20 +234,30 @@ html(lang='en')
       function onClickClearTypes() {
         clearTagifyInput(typeTagifyInput)
       }
-
+      
+      // init types
       resetTagifyInput(typeTagifyInput, allTypes)
 
       typeTagifyInput.on('change', (e) => {
-        const filteredTypes = typeTagifyInput.value.map(v => v.value)
+        const filteredTypes = getTagifyInputValues(typeTagifyInput)
         updateGlobalFilter({ types: filteredTypes })
       })
 
-      // Handle filter changes
+      function getTagifyInputValues(_tagifyInput) {
+        return _tagifyInput.value.map(v => v.value)
+      }
 
+      // Handle filter changes
       function updateGlobalFilter(filterInputs) {
         //- update globalFilters, globalNotes and rerender timelineYp
         Object.entries(filterInputs).forEach(([filterName, filterVal]) => {
-          globalFilters[filterName] = filterVal
+          //special treatment for tags
+          if(filterName ==='tags') {
+            const isAll = (!Array.isArray(filterVal) || !filterVal.length) 
+            globalFilters[filterName] =  isAll ? 'all' : filterVal
+          } else {
+            globalFilters[filterName] = filterVal
+          }
         })
         handleFilterChange()    
       }

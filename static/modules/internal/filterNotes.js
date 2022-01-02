@@ -13,9 +13,10 @@ function filterNotes(_notes, _info, _inputFilters) {
     let hasAuthor = false;
     let hasType = false;
 
+    // only include notes that have all tags in filter
     if (
       !Array.isArray(_filters.tags) ||
-      _filters.tags.some((t) => n.fm.tags.indexOf(t) >= 0)
+      _filters.tags.every((t) => n.fm.tags.indexOf(t) >= 0)
     ) {
       hasTag = true;
     }
