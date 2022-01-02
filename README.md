@@ -24,8 +24,6 @@ Click to the link to open your webpage in the browser.
 
 **Deploy**: `npm run build`
 
-Then serve the specified `distDir`. Deafults to `docs/` for use with GitHub pages
-
 ## JSON API
 
 Builds of your notes also produce a JSON API (enabled by default).
@@ -140,3 +138,5 @@ curl <your site>/api/info.json
 You can update the `notesDir`, `distDir`, whether or not to build webpage and/or API, and more.
 
 See `gnotes-config.js`.
+
+_To change the `distDir`, update `config.distDir` in `package.json`_
