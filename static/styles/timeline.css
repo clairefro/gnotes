@@ -4,3 +4,8 @@
   border-color: orange;
   background-color: yellow;
 }
+
+.vis-timeline {
+  border: 2px solid orange;
+  /* box-shadow: inset 0 0 10px 10px orange; */
+}

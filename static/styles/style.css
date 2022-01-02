@@ -2,8 +2,22 @@ html {
   font-family: sans-serif;
 }
 
-.hide {
-  display: none;
+/* Using this hack to prevent unnecessary redraw of timeline on view toggle */
+/* display: none was causing a render bug when switching views with filters on */
+.hide-by-offset {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 0;
+  height: 0;
+}
+
+.flex {
+  display: flex;
+}
+
+.inline-item + .inline-item {
+  margin-left: 0.5rem;
 }
 
 /* TOGGLE BUTTON start */

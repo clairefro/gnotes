@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><title>My notes</title><!-- vis.js--><script src="modules/external/vis-js.min.js"></script><link href="modules/external/vis-js-timeline-graph2d.css" rel="stylesheet" type="text/css"><!-- tagify --><script src="modules/external/tagify.min.js"></script><script src="modules/external/tagify-polyfills.js"></script><link href="modules/external/tagify.min.css" rel="stylesheet" type="text/css"><!-- custom scripts--><script src="modules/internal/script.js"></script><!-- custom styles--><link rel="stylesheet" href="styles/style.css"><link rel="stylesheet" href="styles/timeline.css"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body><h1>My notes </h1><h2>Explore</h2><details> <summary>Filters </summary><div> <label for="types-input">Type</label><div class="filter-controls"><button id="reset-types-button">(show all)</button><button id="clear-types-button">(clear all)</button></div><input name="types-input" id="types-input"><label for="tag-input">Tags</label><div class="filter-controls"><button id="reset-tags-button">(show all)</button><button id="clear-tags-button">(clear all)</button></div><input name="tag-input" id="tag-input"></div></details><div id="timelines-container"></div><div><p>Toggle View</p><button class="toggle" id="timeline-toggle"><div class="toggle-switch"></div></button><div id="timeline-yp-container"><h3>By year published</h3><p> <em>Scroll to zoom, drag to pan</em></p><div id="timeline-yp"></div></div><div class="hide" id="timeline-ln-container"> <h3>By last noted</h3><p> <em>Scroll to zoom, drag to pan</em></p><div id="timeline-ln"></div></div></div><div><li> <a href="https://ddooss.org/libros/Jorge_Luis_Borges_ficciones.pdf" target="_blank" rel="noreferrer nofollow noopener"> Borges, Jorge Luis - "Ficciones" (1944)</a></li><li> <a href="https://celmoreblog.files.wordpress.com/2016/05/235449575-silence-shusaku-endo-william-johnston.pdf" target="_blank" rel="noreferrer nofollow noopener"> Endo, Shusaku - "Silence" (1966)</a></li><li> <a href="https://www.amazon.com/Myth-Religion-Transcripts-Alan-Watts/dp/080483055X" target="_blank" rel="noreferrer nofollow noopener"> Watts, Alan - "Myth and Religion" (1996)</a></li><li> <a href="http://philoctetes.free.fr/parmenidesunicode.htm" target="_blank" rel="noreferrer nofollow noopener"> Parmenides - "On Nature" (-480)</a></li></div><script type="text/javascript">//////////////////////////
+<!DOCTYPE html><html lang="en"><head><title>My notes</title><!-- vis.js--><script src="modules/external/vis-js.min.js" rel="script"></script><link href="modules/external/vis-js-timeline-graph2d.css" rel="stylesheet" type="text/css"><!-- tagify --><script src="modules/external/tagify.min.js"></script><script src="modules/external/tagify-polyfills.js"></script><link href="modules/external/tagify.min.css" rel="stylesheet" type="text/css"><!-- custom scripts--><script src="modules/internal/script.js"></script><!-- custom styles--><link rel="stylesheet" href="styles/style.css"><link rel="stylesheet" href="styles/timeline.css"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body><h1>My notes </h1><h2>Explore</h2><details> <summary>Filters </summary><div> <label for="types-input">Type</label><div class="filter-controls"><button id="reset-types-button">(show all)</button><button id="clear-types-button">(clear all)</button></div><input name="types-input" id="types-input"><label for="tag-input">Tags</label><div class="filter-controls"><button id="reset-tags-button">(show all)</button><button id="clear-tags-button">(clear all)</button></div><input name="tag-input" id="tag-input"></div></details><div id="timelines-container"></div><div><div class="flex"><p class="inline-item">Toggle View</p><button class="inline-item toggle" id="timeline-toggle"><div class="toggle-switch"></div></button></div><div id="timeline-yp-container"><h3>By year published</h3><p> <em>Scroll to zoom, drag to pan</em></p><div id="timeline-yp"></div></div><div class="hide-by-offset" id="timeline-ln-container"> <h3>By last noted</h3><p> <em>Scroll to zoom, drag to pan</em></p><div id="timeline-ln"></div></div></div><div><li> <a href="https://ddooss.org/libros/Jorge_Luis_Borges_ficciones.pdf" target="_blank" rel="noreferrer nofollow noopener"> Borges, Jorge Luis - "Ficciones" (1944)</a></li><li> <a href="https://celmoreblog.files.wordpress.com/2016/05/235449575-silence-shusaku-endo-william-johnston.pdf" target="_blank" rel="noreferrer nofollow noopener"> Endo, Shusaku - "Silence" (1966)</a></li><li> <a href="https://www.amazon.com/Myth-Religion-Transcripts-Alan-Watts/dp/080483055X" target="_blank" rel="noreferrer nofollow noopener"> Watts, Alan - "Myth and Religion" (1996)</a></li><li> <a href="http://philoctetes.free.fr/parmenidesunicode.htm" target="_blank" rel="noreferrer nofollow noopener"> Parmenides - "On Nature" (-480)</a></li></div><script type="text/javascript">//////////////////////////
 // GLOBAL STATE 
 const globalFilters = {
   types: 'all',
@@ -25,10 +25,11 @@ const ypDatasetInit = toTimeLineDataset(notesToYpItems(globalFilteredNotes))
 const lnDatasetInit = toTimeLineDataset(notesToLnItems(globalFilteredNotes))
 
 const options = {
+  orientation: {axis: 'both', item: 'top'}
+}
+const timelineYp = new vis.Timeline(timelineYpEl, ypDatasetInit, {...options,
   showCurrentTime: false,
-};
-
-const timelineYp = new vis.Timeline(timelineYpEl, ypDatasetInit, options);
+});
 const timelineLn = new vis.Timeline(timelineLnEl, lnDatasetInit, options);
 
 function updateTimelines() {
@@ -85,10 +86,10 @@ const timelineYpContainer = document.getElementById("timeline-yp-container")
 const timelineLnContainer = document.getElementById("timeline-ln-container")
 
 function toggleTimelineView() {
-  // in case we need if for something else...
+  // in case needed for something else...
   timelineViewIsLp = !timelineViewIsLp
-  timelineYpContainer.classList.toggle("hide")
-  timelineLnContainer.classList.toggle("hide")
+  timelineYpContainer.classList.toggle("hide-by-offset")
+  timelineLnContainer.classList.toggle("hide-by-offset")
 }
 
 ///////////////////////

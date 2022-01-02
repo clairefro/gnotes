@@ -4,7 +4,7 @@ html(lang='en')
   head
     title My notes
     // vis.js
-    script(src="modules/external/vis-js.min.js")
+    script(src="modules/external/vis-js.min.js" rel="script")
     link(href="modules/external/vis-js-timeline-graph2d.css" rel="stylesheet" type="text/css")
     // tagify 
     script(src="modules/external/tagify.min.js")
@@ -38,9 +38,10 @@ html(lang='en')
   
     div#timelines-container
     div
-      p Toggle View
-      button.toggle#timeline-toggle
-        div.toggle-switch
+      div.flex
+        p.inline-item Toggle View
+        button.inline-item.toggle#timeline-toggle
+          div.toggle-switch
 
       div#timeline-yp-container
         h3 By year published
@@ -48,7 +49,7 @@ html(lang='en')
           em Scroll to zoom, drag to pan
         div#timeline-yp
 
-      div#timeline-ln-container.hide 
+      div#timeline-ln-container.hide-by-offset 
         h3 By last noted
         p 
           em Scroll to zoom, drag to pan
@@ -84,14 +85,15 @@ html(lang='en')
 
       const ypDatasetInit = toTimeLineDataset(notesToYpItems(globalFilteredNotes))
       const lnDatasetInit = toTimeLineDataset(notesToLnItems(globalFilteredNotes))
-
+      
       const options = {
+        orientation: {axis: 'both', item: 'top'}
+      }
+      const timelineYp = new vis.Timeline(timelineYpEl, ypDatasetInit, {...options,
         showCurrentTime: false,
-      };
-
-      const timelineYp = new vis.Timeline(timelineYpEl, ypDatasetInit, options);
+      });
       const timelineLn = new vis.Timeline(timelineLnEl, lnDatasetInit, options);
-
+      
       function updateTimelines() {
         const ypDataset = toTimeLineDataset(notesToYpItems(globalFilteredNotes))
         const lnDataset = toTimeLineDataset(notesToLnItems(globalFilteredNotes))
@@ -146,10 +148,10 @@ html(lang='en')
       const timelineLnContainer = document.getElementById("timeline-ln-container")
 
       function toggleTimelineView() {
-        // in case we need if for something else...
+        // in case needed for something else...
         timelineViewIsLp = !timelineViewIsLp
-        timelineYpContainer.classList.toggle("hide")
-        timelineLnContainer.classList.toggle("hide")
+        timelineYpContainer.classList.toggle("hide-by-offset")
+        timelineLnContainer.classList.toggle("hide-by-offset")
       }
       
       ///////////////////////
