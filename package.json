@@ -17,7 +17,7 @@
   "devDependencies": {
     "fs-extra": "10.0.0",
     "gray-matter": "4.0.3",
-    "http-server": "14.0.0",
+    "http-server": "^14.0.0",
     "marked": "4.0.8",
     "pug": "3.0.2"
   }
