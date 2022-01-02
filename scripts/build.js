@@ -14,7 +14,7 @@ const appDir = path.resolve(__dirname, "..");
 
 const notesDir = path.resolve(appDir, config.notesDir || "notes");
 const distDir = path.resolve(appDir, config.destDir || "docs");
-const staticDir = path.resolve(appDir, "static");
+const staticDir = path.resolve(appDir, "templates", "static");
 const apiDir = path.join(distDir, "api");
 
 clearDirSync(distDir);
@@ -24,24 +24,31 @@ const info = getNotesInfo(notes);
 
 console.log(`Found ${info.summary.notes.count} notes in '${config.notesDir}'`);
 
-/** Build Website const appDir = dirname(require.main.filename);
-console.log({ appDir });*/
+/** Build Website */
 if (config.makeWebsite) {
-  console.log("Building website...");
+  console.log("Building home page...");
   const homepageHtml = pug.renderFile(
     path.resolve(appDir, "templates", "home.pug"),
     { notes, info }
   );
 
+  console.log("Building 404 page...");
   const notfoundPageHtml = pug.renderFile(
     path.resolve(appDir, "templates", "404.pug")
+  );
+
+  console.log("Building note page...");
+  const notePageHtml = pug.renderFile(
+    path.resolve(appDir, "templates", "note.pug")
   );
 
   const filemap = {
     "index.html": homepageHtml,
     "404.html": notfoundPageHtml,
+    "note.html": notePageHtml,
   };
 
+  console.log("Writing web pages to dist dir...");
   Object.entries(filemap).forEach(([filename, html]) => {
     fs.writeFileSync(path.resolve(distDir, filename), html);
   });

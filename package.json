@@ -6,6 +6,7 @@
   "scripts": {
     "new": "node scripts/new.js",
     "build": "node scripts/build.js",
+    "view": "npm run build && node scripts/view.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Claire Froelich",
@@ -15,5 +16,8 @@
     "gray-matter": "4.0.3",
     "marked": "4.0.8",
     "pug": "3.0.2"
+  },
+  "devDependencies": {
+    "watch-http-server": "^0.7.6"
   }
 }
