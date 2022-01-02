@@ -1,4 +1,4 @@
 mixin notesLink(note)
   li 
-    a(href=`${note.fm.link}` target="_blank" rel="noreferrer nofollow noopener") 
+    a(href=`${note.prettyUrl}` target="_blank" rel="noreferrer nofollow noopener") 
       | #{note.fm.author} - "#{note.fm.title}" (#{note.fm.yearPublished > -1 ? note.fm.yearPublished : note.fm.yearPublished * -1 + " BC"})
