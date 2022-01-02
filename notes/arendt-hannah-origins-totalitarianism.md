@@ -2,7 +2,7 @@
 title: Origins of Totalitarianism
 author: Arendt, Hannah
 yearPublished: 1951
-type: book
+type: 📕 book
 link: https://cheirif.files.wordpress.com/2014/08/hannah-arendt-the-origins-of-totalitarianism-meridian-1962.pdf
 tags:
   - totalitarianism

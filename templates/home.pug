@@ -24,17 +24,20 @@ html(lang='en')
     details 
       summary Filters 
       div 
-        label(for="types-input") Type
-        div.filter-controls
-          button#reset-types-button (show all)
-          button#clear-types-button (clear all)
-        input(name="types-input")#types-input
-
-        label(for="tag-input") Tags
-        div.filter-controls
-          button#reset-tags-button (show all)
-          button#clear-tags-button (clear all)
-        input(name="tag-input")#tag-input
+        div.section
+          div.flex
+            label.inline-item(for="types-input") Type
+            div.filter-controls.inline-item
+              button#reset-types-button (show all)
+              button#clear-types-button (clear all)
+          input(name="types-input")#types-input
+        div.section
+          div.flex
+            label.inline-item(for="tag-input") Tags
+            div.filter-controls.inline-item
+              button#reset-tags-button (show all)
+              button#clear-tags-button (clear all)
+          input(name="tag-input")#tag-input
   
     div#timelines-container
     div
@@ -56,6 +59,7 @@ html(lang='en')
         div#timeline-ln
     
     div
+      h3 List view by author
       each note in notes
         +notesLink(note)
 

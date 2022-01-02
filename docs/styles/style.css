@@ -2,6 +2,10 @@ html {
   font-family: sans-serif;
 }
 
+summary {
+  margin-bottom: 1rem;
+}
+
 /* Using this hack to prevent unnecessary redraw of timeline on view toggle */
 /* display: none was causing a render bug when switching views with filters on */
 .hide-by-offset {
@@ -14,6 +18,10 @@ html {
 
 .flex {
   display: flex;
+}
+
+.section {
+  margin-bottom: 1rem;
 }
 
 .inline-item + .inline-item {
