@@ -6,11 +6,9 @@ Take freeform notes on things you've read, and generate an explorable view of yo
 
 Like learning out loud? Publish your notes to the public internet to share with the world.
 
-## Install
+### Install
 
 `npm install`
-
-## Usage
 
 ### Adding notes
 
@@ -20,17 +18,13 @@ Fill out the meta data how you see fit, using any any conventions you like. You 
 
 ### Viewing your notes
 
-#### Locally
-
-`npm run view`
+**Locally**: `npm run view`
 
 Click to the link to open your webpage in the browser.
 
-#### Deploy
+**Deploy**: `npm run build`
 
-`npm run build`
-
-Serve the specified `distDir`. Deafults to `docs/` for use with GitHub pages
+Then serve the specified `distDir`. Deafults to `docs/` for use with GitHub pages
 
 ## JSON API
 
@@ -141,7 +135,7 @@ curl <your site>/api/info.json
 </code>
 </details>
 
-### Config
+## Config
 
 You can update the `notesDir`, `distDir`, whether or not to build webpage and/or API, and more.
 
