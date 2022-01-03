@@ -6,103 +6,7 @@ summary {
   margin-bottom: 1rem;
 }
 
-/* Using this hack to prevent unnecessary redraw of timeline on view toggle */
-/* display: none was causing a render bug when switching views with filters on */
-.hide-by-offset {
-  position: absolute;
-  left: -9999px;
-  top: -9999px;
-  width: 0;
-  height: 0;
-}
-
-.flex {
-  display: flex;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.block {
-  display: block;
-}
-
-.section {
-  margin-bottom: 1rem;
-}
-
-.icon-scale {
-  height: 1em;
-  width: 1em;
-}
-
-.icon-md {
-  height: 1.5em;
-  width: 1.5em;
-}
-
-.icon-lg {
-  height: 2em;
-  width: 2em;
-}
-
-.inline-item + .inline-item {
-  margin-left: 0.5rem;
-}
-
-/* TOGGLE BUTTON start */
-:root {
-  --toggle-height: 20px;
-  --toggle-width: 48px;
-}
-
-.toggle {
-  display: inline;
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-}
-
-.toggle-switch {
-  background: #ccc;
-  border-radius: 15px;
-  width: var(--toggle-width);
-  height: var(--toggle-height);
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.toggle-switch::after {
-  content: " ";
-  display: block;
-  width: var(--toggle-height);
-  height: var(--toggle-height);
-  border-radius: 50%;
-  background-color: black;
-  transition: all 0.1s ease-in-out;
-}
-
-.active .toggle-switch::after {
-  margin-left: calc(var(--toggle-width) - var(--toggle-height));
-}
-
-.toggle-label {
-  display: inline-block;
-  line-height: 30px;
-}
-/* TOGGLE BUTTON end */
-
-/* Markdown start*/
+/* General start*/
 
 h1,
 h2,
@@ -206,4 +110,100 @@ table td {
   border: 1px solid #ccc;
 }
 
-/* Markdown end*/
+/* General end*/
+
+/* Using this hack to prevent unnecessary redraw of timeline on view toggle */
+/* display: none was causing a render bug when switching views with filters on */
+.hide-by-offset {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 0;
+  height: 0;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.block {
+  display: block;
+}
+
+.section {
+  margin-bottom: 1rem;
+}
+
+.icon-scale {
+  height: 1em;
+  width: 1em;
+}
+
+.icon-md {
+  height: 1.5em;
+  width: 1.5em;
+}
+
+.icon-lg {
+  height: 2em;
+  width: 2em;
+}
+
+.inline-item + .inline-item {
+  margin-left: 0.5rem;
+}
+
+/* TOGGLE BUTTON start */
+:root {
+  --toggle-height: 20px;
+  --toggle-width: 48px;
+}
+
+.toggle {
+  display: inline;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.toggle-switch {
+  background: #ccc;
+  border-radius: 15px;
+  width: var(--toggle-width);
+  height: var(--toggle-height);
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.toggle-switch::after {
+  content: " ";
+  display: block;
+  width: var(--toggle-height);
+  height: var(--toggle-height);
+  border-radius: 50%;
+  background-color: black;
+  transition: all 0.1s ease-in-out;
+}
+
+.active .toggle-switch::after {
+  margin-left: calc(var(--toggle-width) - var(--toggle-height));
+}
+
+.toggle-label {
+  display: inline-block;
+  line-height: 30px;
+}
+/* TOGGLE BUTTON end */
