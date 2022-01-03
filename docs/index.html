@@ -68,7 +68,7 @@ function toTimeLineDataset (_items) {
 function buildTimelineContent(_note) {
   return `
     <div className="tl-content">
-      <a href="${_note.prettyUrl}" target="_blank" rel="noopener noreferrer nofollow">
+      <a href="notes/${_note.slug}.html" target="_blank" rel="noopener noreferrer nofollow">
       <span>${_note.fm.title}</span>
       </a>
     </div>
