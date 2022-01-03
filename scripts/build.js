@@ -1,6 +1,9 @@
 const fs = require("fs");
 const path = require("path");
+const util = require("util");
 const pug = require("../lib/pug");
+const markdown = require("../lib/markdown");
+const epochify = require("../lib/epochify");
 const {
   clearDirSync,
   copySync,
@@ -37,16 +40,40 @@ if (config.makeWebsite) {
     path.resolve(appDir, "templates", "404.pug")
   );
 
-  console.log("Building note page...");
-  const notePageHtml = pug.renderFile(
-    path.resolve(appDir, "templates", "note.pug")
-  );
+  // // For alternate note page rendering.....
+  // const notePageHtml = pug.renderFile(
+  //   path.resolve(appDir, "templates", "note.pug")
+  // );
+
+  console.log("Building notes dir...");
+  mkdirIfNotExistsSync(path.resolve(distDir, "notes"));
+
+  console.log("Building note pages...");
+  const notesPages = notes.map((n) => {
+    const html = pug.renderFile(path.resolve(appDir, "templates", "note.pug"), {
+      note: n,
+      markdown,
+      epochify,
+    });
+    return { html, slug: n.slug };
+  });
 
   const filemap = {
     "index.html": homepageHtml,
     "404.html": notfoundPageHtml,
-    "note.html": notePageHtml,
   };
+
+  // add notesPages to fileMap
+  notesPages.forEach((np) => {
+    const file = `notes/${np.slug}.html`;
+    filemap[file] = np.html;
+  });
+
+  const builtPages = Object.keys(filemap);
+  console.log(
+    `Build ${builtPages.length} pages: `,
+    util.inspect(builtPages, { maxArrayLength: 10 })
+  );
 
   console.log("Writing web pages to dist dir...");
   Object.entries(filemap).forEach(([filename, html]) => {
@@ -70,6 +97,7 @@ if (config.makeApi) {
   fs.writeFileSync(path.resolve(apiDir, "notes.json"), JSON.stringify(notes));
   // Write info.json
   fs.writeFileSync(path.resolve(apiDir, "info.json"), JSON.stringify(info));
+  console.log("Built 2 API endpoints: ", ["api/info.json", "api/notes.json"]);
   console.log("Done.");
 } else {
   console.log(
