@@ -6,6 +6,8 @@ Take freeform notes on things you've read, and generate an explorable view of yo
 
 Like learning out loud? Publish your notes to the public internet to share with the world.
 
+![image](https://user-images.githubusercontent.com/9841162/147895296-0f268f4e-8db4-4dd5-97d4-a8016b34b0d6.png)
+
 ### Install
 
 `npm install`
