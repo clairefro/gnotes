@@ -71,7 +71,7 @@ if (config.makeWebsite) {
 
   const builtPages = Object.keys(filemap);
   console.log(
-    `Build ${builtPages.length} pages: `,
+    `Built ${builtPages.length} pages: `,
     util.inspect(builtPages, { maxArrayLength: 10 })
   );
 
