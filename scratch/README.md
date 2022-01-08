@@ -1,4 +1,4 @@
-This version of `note.pug` is a single html page that fetches all the raw markdown github data on page load.
+This version of `note.pug` is a single html page that dynamically fetches all the raw markdown github data on page load.
 
 It is an alternative to templating out a ton of htmls files
 

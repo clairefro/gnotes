@@ -96,7 +96,7 @@ html(lang='en')
       const lnDatasetInit = toTimeLineDataset(notesToLnItems(globalFilteredNotes))
       
       const options = {
-        orientation: {axis: 'both', item: 'top'}
+        orientation: {axis: 'top', item: 'top'}
       }
       const timelineYp = new vis.Timeline(timelineYpEl, ypDatasetInit, {...options,
         showCurrentTime: false,
