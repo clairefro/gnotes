@@ -1,11 +1,7 @@
-doctype html
-html(lang='en')
-  head
-    title Not found
-    
-    // custom styles
-    link(rel="stylesheet" href="styles/style.css")
+extends layouts/layout.pug
 
-    include includes/commonHead.pug
-  body
+append head
+  title Not found
+
+block content
     h1 Not found :(

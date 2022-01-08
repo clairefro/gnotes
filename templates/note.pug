@@ -1,20 +1,17 @@
-doctype html
-html(lang='en')
-  head
-    title #{note.fm.author} | #{note.fm.title}
-     // custom styles
-    link(rel="stylesheet" href="../styles/style.css")
+extends layouts/layout.pug
 
-    include includes/commonHead.pug
-  body
-    a.block(href="../") Home
-    p 
-      strong #{note.fm.author} - "#{note.fm.title}" (#{epochify(note.fm.yearPublished)})
-    p #{note.fm.type}
-    p #{note.fm.tags.join(', ')}
-    if note.fm.link
-      a(href=note.fm.link target="_blank" rel="noopener noreferrer nofollow") Source
-    a(href=note.prettyUrl target="_blank" rel="noopener noreferrer nofollow") 
-      img.icon-md(height="16px" width="16px" src="../assets/github.svg" alt="GitHub logo" title="View note on GitHub")
-    div!= markdown(note.content)
+append head
+  title #{note.fm.author} | #{note.fm.title}
+
+block content
+  a.block(href="../") Home
+  p 
+    strong #{note.fm.author} - "#{note.fm.title}" (#{epochify(note.fm.yearPublished)})
+  p #{note.fm.type}
+  p #{note.fm.tags.join(', ')}
+  if note.fm.link
+    a(href=note.fm.link target="_blank" rel="noopener noreferrer nofollow") Source
+  a(href=note.prettyUrl target="_blank" rel="noopener noreferrer nofollow") 
+    img.icon-md(height="16px" width="16px" src="../assets/github.svg" alt="GitHub logo" title="View note on GitHub")
+  div!= markdown(note.content)
 

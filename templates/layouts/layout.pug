@@ -1,11 +1,14 @@
-html
+doctype html
+html(lang='en')
   head
-    block title 
-      title My Site - #{title}
-    block scripts
-      script(src='/jquery.js')
+    block head 
+      //- defaults for all pages
+      meta(name="viewport" content="width=device-width, initial-scale=1.0")
+      
+      link(rel="stylesheet" href="styles/style.css")
   body
     block content
-    block foot
+
+    block footer
       #footer
         p some footer content
