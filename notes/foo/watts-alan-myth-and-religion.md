@@ -7,7 +7,7 @@ link: https://www.amazon.com/Myth-Religion-Transcripts-Alan-Watts/dp/080483055X
 tags:
   - philosophy
   - religion
-lastNoted: "2021-11-31"
+lastNoted: "2021-11-30"
 ---
 
 # On the fourth day

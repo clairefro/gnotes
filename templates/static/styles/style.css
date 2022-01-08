@@ -207,3 +207,10 @@ table td {
   line-height: 30px;
 }
 /* TOGGLE BUTTON end */
+
+span.lastNoted {
+  font-style: italic;
+  opacity: 0.5;
+  font-size: 0.75rem;
+  margin-left: 0.25rem;
+}

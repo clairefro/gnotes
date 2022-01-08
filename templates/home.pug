@@ -10,8 +10,11 @@ html(lang='en')
     script(src="modules/external/tagify.min.js")
     script(src="modules/external/tagify-polyfills.js")
     link(href="modules/external/tagify.min.css" rel="stylesheet" type="text/css")
+    // moment
+    script(src="modules/external/moment.min.js")
     // custom scripts
     script(src="modules/internal/filterNotes.js")
+    
     // timeline styles
     link(rel="stylesheet" href="styles/style.css")
     link(rel="stylesheet" href="styles/timeline.css")
@@ -66,7 +69,8 @@ html(lang='en')
       h3 List view by author
       each note in notes
         +notesLink(note)
-
+        
+    script(src="modules/internal/timeago.js")
     script(type="text/javascript"). 
       //////////////////////////
       // GLOBAL STATE 

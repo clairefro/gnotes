@@ -2,3 +2,4 @@ mixin notesLink(note)
   li 
     a(href=`notes/${note.slug}` target="_blank" rel="noreferrer nofollow noopener") 
       | #{note.fm.author} - "#{note.fm.title}" (#{note.fm.yearPublished > -1 ? note.fm.yearPublished : note.fm.yearPublished * -1 + " BC"})
+    span.lastNoted.timeago #{note.fm.lastNoted}
